@@ -797,7 +797,7 @@
             <div>
               <h3 style="margin: 0 0 8px 0; color: #1f3763; font-size: 1.25em;"><i class="fas fa-book-reader"></i> Contexto de Gestión del Sistema</h3>
               <div style="font-size: 1.05em; line-height: 1.7; color: #1a1a1a;">
-                <p style="margin: 0;">Una importante concesionaria automotriz requiere sistematizar su stock en memoria RAM mediante un Arreglo de Estructuras (AoS). Cada unidad está modelada por el struct <code>Vehiculo</code> con <strong>tipos de datos exclusivamente primitivos</strong> (<code>codigo</code>, <code>anioFabricacion</code>, <code>categoria</code>, <code>precioLista</code>, <code>descuentoPorc</code>, <code>precioFinal</code>), permitiendo una entrada interactiva simple y robusta vía <code>cin &gt;&gt;</code>. Toda la capa de presentación con <code>&lt;iomanip&gt;</code> y menús ya viene provista. El estudiante debe programar las 6 funciones algorítmicas principales y una función auxiliar de intercambio de estructuras (Búsqueda por código, Inserción con unicidad y corrimiento a derecha, Modificación in-place con clave inmutable, Baja física con compactación del arreglo mediante corrimiento a la izquierda y Ordenamiento Burbuja Descendente por <code>precioFinal</code> y Cálculo Estadístico de Promedio con guarda defensiva) y completar en la hoja provista la traza de <strong>Inserción Directa Descendente</strong>.</p>
+                <p style="margin: 0;">Sistema de gestión de inventario para una concesionaria automotriz basado en Arreglo de Estructuras (AoS). Implemente los módulos de gestión algorítmica sobre el stock de vehículos y resuelva la traza manual en la hoja provista.</p>
         <!-- Especificacion del Modelo de Datos (Struct) en el Enunciado -->
         <div class="data-model-card" style="margin-top: 16px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
           <div style="background: #f8fafc; border-bottom: 1px solid #e2e8f0; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
@@ -812,53 +812,44 @@
               <table style="width: 100%; border-collapse: collapse; font-size: 0.88em; text-align: left;">
                 <thead>
                   <tr style="background: #f1f5f9; border-bottom: 2px solid #cbd5e1; color: #1e293b;">
-                    <th style="padding: 9px 12px; width: 20%; font-weight: 700;">Campo</th>
-                    <th style="padding: 9px 12px; width: 25%; font-weight: 700;">Rol en Dominio</th>
-                    <th style="padding: 9px 12px; font-weight: 700;">Descripción, Tipo Inferido y Regla de Negocio</th>
+                    <th style="padding: 9px 12px; width: 22%; font-weight: 700;">Campo</th>
+                    <th style="padding: 9px 12px; width: 18%; font-weight: 700;">Origen</th>
+                    <th style="padding: 9px 12px; font-weight: 700;">Descripción, Tipo y Regla de Cálculo</th>
                   </tr>
                 </thead>
                 <tbody>
                 <tr style="border-bottom: 1px solid #e2e8f0;">
                   <td style="padding: 9px 12px; font-weight: 600; color: #1e3a8a;"><code>codigo</code></td>
-                  <td style="padding: 9px 12px; color: #0f766e; font-weight: 600;">Clave Primaria (PK)</td>
-                  <td style="padding: 9px 12px; color: #334155; line-height: 1.45;">Número entero positivo unívoco. Identificador inmutable de la unidad automotriz.</td>
+                  <td style="padding: 9px 12px;"><span style="background: #e0f2fe; color: #0369a1; padding: 2px 8px; border-radius: 4px; font-size: 0.85em; font-weight: 600;">Entrada (cin)</span></td>
+                  <td style="padding: 9px 12px; color: #334155; line-height: 1.45;">Entero positivo único (&gt; 0). Clave primaria inmutable.</td>
                 </tr>
                 <tr style="border-bottom: 1px solid #e2e8f0;">
                   <td style="padding: 9px 12px; font-weight: 600; color: #1e3a8a;"><code>anioFabricacion</code></td>
-                  <td style="padding: 9px 12px; color: #0f766e; font-weight: 600;">Atributo de Datos</td>
-                  <td style="padding: 9px 12px; color: #334155; line-height: 1.45;">Año de fabricación del vehículo (número entero, 1990 &le; anioFabricacion &le; 2026).</td>
+                  <td style="padding: 9px 12px;"><span style="background: #e0f2fe; color: #0369a1; padding: 2px 8px; border-radius: 4px; font-size: 0.85em; font-weight: 600;">Entrada (cin)</span></td>
+                  <td style="padding: 9px 12px; color: #334155; line-height: 1.45;">Año de fabricación del vehículo (entero, 1990 &le; anioFabricacion &le; 2026).</td>
                 </tr>
                 <tr style="border-bottom: 1px solid #e2e8f0;">
                   <td style="padding: 9px 12px; font-weight: 600; color: #1e3a8a;"><code>categoria</code></td>
-                  <td style="padding: 9px 12px; color: #0f766e; font-weight: 600;">Campo Clasificador</td>
-                  <td style="padding: 9px 12px; color: #334155; line-height: 1.45;">Carácter derivado de la antigüedad ant = 2026 - anioFabricacion: 'N' (Nuevo: ant &le; 1 año), 'S' (Seminuevo: 2 &le; ant &le; 5), 'U' (Usado: ant &ge; 6).</td>
+                  <td style="padding: 9px 12px;"><span style="background: #fef3c7; color: #92400e; padding: 2px 8px; border-radius: 4px; font-size: 0.85em; font-weight: 600;">Calculado</span></td>
+                  <td style="padding: 9px 12px; color: #334155; line-height: 1.45;">Carácter según antigüedad (<code>ant = 2026 - anioFabricacion</code>): si <code>ant &le; 1</code> &rarr; <code>'N'</code> (Nuevo); si <code>ant &le; 5</code> &rarr; <code>'S'</code> (Seminuevo); caso contrario &rarr; <code>'U'</code> (Usado).</td>
                 </tr>
                 <tr style="border-bottom: 1px solid #e2e8f0;">
                   <td style="padding: 9px 12px; font-weight: 600; color: #1e3a8a;"><code>precioLista</code></td>
-                  <td style="padding: 9px 12px; color: #0f766e; font-weight: 600;">Atributo Monetario</td>
-                  <td style="padding: 9px 12px; color: #334155; line-height: 1.45;">Precio de lista oficial de la concesionaria (número real con decimales, &gt; 0.0).</td>
+                  <td style="padding: 9px 12px;"><span style="background: #e0f2fe; color: #0369a1; padding: 2px 8px; border-radius: 4px; font-size: 0.85em; font-weight: 600;">Entrada (cin)</span></td>
+                  <td style="padding: 9px 12px; color: #334155; line-height: 1.45;">Real con decimales (&gt; 0.0). Precio de lista oficial de fábrica.</td>
                 </tr>
                 <tr style="border-bottom: 1px solid #e2e8f0;">
                   <td style="padding: 9px 12px; font-weight: 600; color: #1e3a8a;"><code>descuentoPorc</code></td>
-                  <td style="padding: 9px 12px; color: #0f766e; font-weight: 600;">Atributo Comercial</td>
-                  <td style="padding: 9px 12px; color: #334155; line-height: 1.45;">Porcentaje de descuento comercial otorgado (número real, 0.0 a 30.0 %).</td>
+                  <td style="padding: 9px 12px;"><span style="background: #e0f2fe; color: #0369a1; padding: 2px 8px; border-radius: 4px; font-size: 0.85em; font-weight: 600;">Entrada (cin)</span></td>
+                  <td style="padding: 9px 12px; color: #334155; line-height: 1.45;">Real con decimales: porcentaje comercial bonificado (0.0 &le; descuentoPorc &le; 30.0).</td>
                 </tr>
                 <tr style="border-bottom: 1px solid #e2e8f0;">
                   <td style="padding: 9px 12px; font-weight: 600; color: #1e3a8a;"><code>precioFinal</code></td>
-                  <td style="padding: 9px 12px; color: #0f766e; font-weight: 600;">Campo Derivado</td>
-                  <td style="padding: 9px 12px; color: #334155; line-height: 1.45;">Monto final calculado aplicando descuento y recargo por categoría: recargo = 0.10 ('N'), 0.05 ('S'), 0.0 ('U'). Fórmula: precioLista * (1.0 - descuentoPorc / 100.0) * (1.0 + recargo).</td>
+                  <td style="padding: 9px 12px;"><span style="background: #fef3c7; color: #92400e; padding: 2px 8px; border-radius: 4px; font-size: 0.85em; font-weight: 600;">Calculado</span></td>
+                  <td style="padding: 9px 12px; color: #334155; line-height: 1.45;">Real con decimales: <code>precioLista * (1.0 - descuentoPorc / 100.0) * (1.0 + recargo)</code>, con recargo según categoría: 'N' (+10% / 0.10), 'S' (+5% / 0.05), 'U' (0%).</td>
                 </tr>
                 </tbody>
               </table>
-            </div>
-            <div style="margin-top: 14px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 6px; padding: 12px 16px; font-size: 0.9em; color: #166534;">
-              <strong><i class="fas fa-calculator"></i> Reglas de Negocio y Fórmulas de Cálculo:</strong>
-              <ul style="margin: 6px 0 0 18px; padding: 0; line-height: 1.5;">
-                <li>Antigüedad <code>ant</code> = <code>2026 - anioFabricacion</code>.</li>
-                <li><code>categoria</code>: si <code>ant &le; 1</code> &rarr; <code>'N'</code>; si <code>ant &le; 5</code> &rarr; <code>'S'</code>; caso contrario &rarr; <code>'U'</code>.</li>
-                <li>Recargo por categoría: <code>'N'</code> &rarr; +10% (0.10); <code>'S'</code> &rarr; +5% (0.05); <code>'U'</code> &rarr; 0% (0.00).</li>
-                <li><code>precioFinal</code> = <code>precioLista * (1.0 - descuentoPorc / 100.0) * (1.0 + recargo)</code>.</li>
-              </ul>
             </div>
           <div style="margin-top: 12px; background: #fffbeb; border: 1px solid #fef3c7; border-left: 4px solid #f59e0b; border-radius: 6px; padding: 10px 14px; font-size: 0.9em; color: #92400e;">
               <strong><i class="fas fa-exclamation-triangle"></i> Orden Obligatorio de Miembros en el Struct:</strong> Declare los campos del struct respetando <strong>estrictamente el mismo orden en que aparecen en la tabla</strong>. Esto es indispensable para que la inicialización por lista de llaves <code>{ ... }</code> del arreglo precargado provista en <code>main()</code> compile sin errores de tipos ni desfasaje de columnas.
@@ -884,11 +875,11 @@
               <i class="fas fa-layer-group" style="color: #16a34a;"></i>
               <div>
                 <h4 style="margin: 0 0 6px 0; color: #166534; font-size: 1.1em;">Arquitectura de Software: Código Base y Alcance de Implementación</h4>
-                <p style="margin: 0; font-size: 0.98em; line-height: 1.6; color: #14532d;">
-                  Las funciones de presentación tabular y el menú están preimplementados. El estudiante deberá completar en el <code>switch</code> la lectura de los datos, la validación correspondiente, las llamadas a las funciones y la presentación de los resultados.
+                <p style="margin: 0; font-size: 0.95em; line-height: 1.55; color: #14532d;">
+                  La presentación tabular y el menú interactivo están provistos. El estudiante debe declarar el <code>struct</code>, implementar las <strong>6 funciones algorítmicas y la función auxiliar de intercambio</strong> en C++, y resolver en papel la <strong>traza manual</strong>.
                 </p>
-                <p style="margin: 8px 0 0 0; font-size: 0.95em; line-height: 1.5; color: #14532d;">
-                  <strong>Responsabilidad del Estudiante:</strong> Declarar los campos del <code>struct</code> en base al modelo de datos, definir los prototipos de las funciones, implementar las <strong>6 funciones algorítmicas principales y una función auxiliar de intercambio de estructuras</strong> en C++ y resolver en hoja manuscrita la <strong>traza manual de ordenamiento</strong>.
+                <p style="margin: 6px 0 0 0; font-size: 0.95em; line-height: 1.5; color: #14532d;">
+                  <strong>Reutilización Modular:</strong> Para alcanzar la máxima valoración de modularidad en inserción, modificación y baja, deberá reutilizar la función de búsqueda previamente implementada. Una búsqueda lineal integrada dentro de la función se considerará funcional, pero recibirá una valoración menor en el criterio de modularidad.
                 </p>
               </div>
             </div>
@@ -900,7 +891,7 @@
             <div class="mission-card">
               <div class="mission-card-header">
                 <div class="mission-card-title">
-                  <i class="fas fa-search"></i> 1. Búsqueda por Clave Primaria (Read) — C++
+                  <i class="fas fa-search"></i> 1. Búsqueda por Clave Primaria (Lineal)
                 </div>
                 <div class="rubric-pill">
                   <span>10%</span>
@@ -910,38 +901,40 @@
                   </div>
                 </div>
               </div>
-              <p class="mission-card-desc">
-                Implemente una función modular para realizar la <strong>búsqueda lineal</strong> por clave primaria. La función debe recorrer secuencialmente el arreglo y, al encontrar la coincidencia, retornar inmediatamente la posición (<code>0 .. tam-1</code>) mediante una salida temprana. Si el elemento no existe, debe retornar <code>-1</code> como valor centinela. Declare el arreglo recibido como parámetro de solo lectura, por ejemplo mediante <code>const Vehiculo arr[]</code>.
-              </p>
+              <ul style="margin: 4px 0 0 0; padding-left: 20px; font-size: 0.92em; line-height: 1.55; color: #334155;">
+                <li><strong>Entrada:</strong> Arreglo de solo lectura (<code>const Vehiculo arr[]</code>), tamaño lógico <code>tam</code> y <code>codigo</code> buscado.</li>
+                <li><strong>Proceso:</strong> Recorrido secuencial con <strong>salida temprana</strong> inmediata al hallar coincidencia.</li>
+                <li><strong>Retorno:</strong> Índice de la celda encontrada (<code>0 .. tam-1</code>) o <code>-1</code> como centinela de no existencia.</li>
+              </ul>
             </div>
 
             <!-- Item 2: Alta / Inserción con Unicidad de Clave -->
             <div class="mission-card">
               <div class="mission-card-header">
                 <div class="mission-card-title">
-                  <i class="fas fa-plus-circle"></i> 2. Alta / Inserción con Unicidad de Clave (Create) — C++
+                  <i class="fas fa-plus-circle"></i> 2. Alta / Inserción en Posición (Right-Shift)
                 </div>
                 <div class="rubric-pill">
                   <span>15%</span>
                   <div class="rubric-tooltip">
                     <strong>Alta con Unicidad de Clave</strong><br>
-                    Control de capacidad (tam &lt; CAPACIDAD), verificación recomendada de no-duplicado reutilizando búsqueda (buenas prácticas de modularidad) y tam++.
+                    Control de capacidad (tam &lt; CAPACIDAD), validación de posición (0..tam), verificación recomendada de no-duplicado reutilizando búsqueda y tam++.
                   </div>
                 </div>
               </div>
-              <p class="mission-card-desc">
-                Implemente una función modular para realizar el <strong>alta / inserción</strong> de un nuevo vehículo en una posición indicada del arreglo. La función debe: verificar la existencia de cupo físico disponible (<code>tam &lt; capacidad</code>), validar que la posición de inserción sea admisible dentro del rango activo (<code>0 .. tam</code>) y garantizar la <strong>unicidad de la clave primaria</strong>. Para alcanzar la máxima valoración de modularidad, deberá verificar la no existencia de la clave primaria reutilizando la función de búsqueda previamente implementada. Una búsqueda lineal integrada dentro de la función se considerará funcional, pero recibirá una valoración menor en el criterio de modularidad. Si la clave ya existe, si el cupo está agotado o si la posición es inválida, debe rechazar la operación informando fracaso (retornando <code>false</code>). Si la operación es válida, debe desplazar los elementos posteriores hacia la derecha (Right-Shift), insertar el nuevo registro en la posición indicada, actualizar el tamaño activo del arreglo e informar éxito (retornando <code>true</code>).
-              </p>
-                  <div style="margin-top: 10px; padding: 8px 12px; background: #f0f9ff; border-left: 3px solid #0284c7; border-radius: 4px; font-size: 0.9em; color: #0369a1;">
-                    <strong><i class="fas fa-info-circle"></i> Responsabilidad de Cálculo:</strong> Los campos derivados se calculan en la interacción con el usuario (en el <code>case 3:</code> del <code>switch</code>) al estructurar la variable temporal <code>nuevo</code> antes de invocar la función. De este modo, la función algorítmica de inserción recibe el registro completamente consolidado y se concentra en verificar capacidad, validar posición, asegurar unicidad y efectuar el corrimiento hacia la derecha (Right-Shift).
-                  </div>
+              <ul style="margin: 4px 0 0 0; padding-left: 20px; font-size: 0.92em; line-height: 1.55; color: #334155;">
+                <li><strong>Entrada:</strong> Arreglo <code>Vehiculo arr[]</code>, tamaño por referencia <code>int &tam</code>, posición <code>pos</code> y nuevo registro <code>nuevo</code> (con derivados ya calculados en el <code>switch</code>).</li>
+                <li><strong>Validaciones:</strong> Rechazar (retornar <code>false</code>) si <code>tam &gt;= CAPACIDAD</code>, si <code>pos &lt; 0</code> o <code>pos &gt; tam</code>, o si el código ya existe en el stock.</li>
+                <li><strong>Proceso:</strong> Desplazar celdas a la derecha (<em>Right-Shift</em>) desde <code>pos</code>, insertar el registro e incrementar <code>tam++</code>.</li>
+                <li><strong>Retorno:</strong> <code>true</code> si se insertó con éxito; <code>false</code> si fue rechazada.</li>
+              </ul>
             </div>
 
             <!-- Item 3: Modificación de Atributos con Clave Inmutable -->
             <div class="mission-card">
               <div class="mission-card-header">
                 <div class="mission-card-title">
-                  <i class="fas fa-edit"></i> 3. Modificación con Clave Inmutable (Update) — C++
+                  <i class="fas fa-edit"></i> 3. Modificación in-place (PK Inmutable)
                 </div>
                 <div class="rubric-pill">
                   <span>10%</span>
@@ -951,57 +944,60 @@
                   </div>
                 </div>
               </div>
-              <p class="mission-card-desc">
-                Implemente una función modular para realizar la <strong>modificación</strong> del porcentaje de descuento de un vehículo existente. Para alcanzar la máxima valoración de modularidad, deberá reutilizar la función de búsqueda previamente implementada. Una búsqueda lineal integrada dentro de la función se considerará funcional, pero recibirá una valoración menor en el criterio de modularidad. Si el registro no existe, debe rechazar la operación retornando <code>false</code>. Si existe, la función deberá recibir el nuevo porcentaje de descuento, localizar el vehículo, modificar únicamente <code>descuentoPorc</code>, recalcular <code>precioFinal</code> y preservar sin cambios <code>codigo</code>, <code>anioFabricacion</code>, <code>categoria</code> y <code>precioLista</code>, e informar éxito retornando <code>true</code>.
-              </p>
-                  <div style="margin-top: 10px; padding: 8px 12px; background: #f0f9ff; border-left: 3px solid #0284c7; border-radius: 4px; font-size: 0.9em; color: #0369a1;">
-                    <strong><i class="fas fa-info-circle"></i> Flujo de Interacción y Diseño:</strong> En el <code>case 4:</code> del menú, para evitar solicitar datos nuevos si el registro no existe, se permite consultar previamente con la función de búsqueda o solicitar los nuevos datos y delegar la validación y actualización a la función algorítmica. La función deberá recibir el nuevo porcentaje de descuento, localizar el vehículo, modificar únicamente <code>descuentoPorc</code>, recalcular <code>precioFinal</code> y preservar sin cambios <code>codigo</code>, <code>anioFabricacion</code>, <code>categoria</code> y <code>precioLista</code>, retornando un valor booleano (<code>true</code> / <code>false</code>) indicando el éxito o fracaso de la operación.
-                  </div>
+              <ul style="margin: 4px 0 0 0; padding-left: 20px; font-size: 0.92em; line-height: 1.55; color: #334155;">
+                <li><strong>Entrada:</strong> Arreglo <code>Vehiculo arr[]</code>, <code>tam</code>, <code>codigo</code> a modificar y nuevo porcentaje (<code>descuentoPorc</code>).</li>
+                <li><strong>Proceso:</strong> Localizar registro. Si existe, modificar in-place exclusivamente <code>descuentoPorc</code> y recalcular <code>precioFinal</code>, preservando intactos <code>codigo</code>, <code>anioFabricacion</code>, <code>categoria</code> y <code>precioLista</code>.</li>
+                <li><strong>Retorno:</strong> <code>true</code> si la modificación fue exitosa; <code>false</code> si el código no fue hallado.</li>
+              </ul>
             </div>
 
-            <!-- Item 4: Baja Física con Compactación del Arreglo mediante Corrimiento a la Izquierda -->
+            <!-- Item 4: Baja Física con Compactación del Arreglo -->
             <div class="mission-card">
               <div class="mission-card-header">
                 <div class="mission-card-title">
-                  <i class="fas fa-trash-alt"></i> 4. Baja Física con Compactación del Arreglo mediante Corrimiento a la Izquierda (Delete) — C++
+                  <i class="fas fa-trash-alt"></i> 4. Baja Física con Compactación (Left-Shift)
                 </div>
                 <div class="rubric-pill">
                   <span>15%</span>
                   <div class="rubric-tooltip">
                     <strong>Baja Física con Compactación del Arreglo</strong><br>
-                    Reutilización modular recomendada de búsqueda, corrimiento contiguo a la izquierda Left-Shift (desplazamiento de celdas posteriores para cubrir el hueco vacío) y decremento del tamaño lógico tam--.
+                    Reutilización modular recomendada de búsqueda, corrimiento contiguo a la izquierda Left-Shift (cubrir hueco) y decremento tam--.
                   </div>
                 </div>
               </div>
-              <p class="mission-card-desc">
-                Implemente una función modular para realizar la <strong>baja física definitiva</strong> de un vehículo a partir de su clave primaria. Para alcanzar la máxima valoración de modularidad, deberá reutilizar la función de búsqueda previamente implementada. Una búsqueda lineal integrada dentro de la función se considerará funcional, pero recibirá una valoración menor en el criterio de modularidad. Si no existe, debe rechazar la operación retornando <code>false</code>. Si existe, debe realizar la baja física con compactación del arreglo mediante corrimiento a la izquierda (Left-Shift), desplazando todos los elementos posteriores una posición hacia adelante para eliminar el hueco sin dejar celdas vacías intermedias, decrementar el tamaño activo del arreglo e informar éxito retornando <code>true</code>.
-              </p>
+              <ul style="margin: 4px 0 0 0; padding-left: 20px; font-size: 0.92em; line-height: 1.55; color: #334155;">
+                <li><strong>Entrada:</strong> Arreglo <code>Vehiculo arr[]</code>, tamaño por referencia <code>int &tam</code> y <code>codigo</code> a eliminar.</li>
+                <li><strong>Proceso:</strong> Localizar registro. Si existe, compactar el stock desplazando los elementos posteriores una posición a la izquierda (<em>Left-Shift</em>) y decrementar <code>tam--</code>.</li>
+                <li><strong>Retorno:</strong> <code>true</code> si se eliminó y compactó; <code>false</code> si el registro no existe.</li>
+              </ul>
             </div>
 
             <!-- Item 5: Ordenamiento Burbuja en C++ -->
             <div class="mission-card">
               <div class="mission-card-header">
                 <div class="mission-card-title">
-                  <i class="fas fa-sort-amount-down-alt"></i> 5. Ordenamiento Burbuja con Intercambio Completo de Estructuras — C++
+                  <i class="fas fa-sort-amount-down-alt"></i> 5. Ordenamiento Burbuja Mejorada
                 </div>
                 <div class="rubric-pill">
                   <span>15%</span>
                   <div class="rubric-tooltip">
                     <strong>Intercambio Completo de Estructuras</strong><br>
-                    Burbuja Mejorada con bandera de corte comparando campo clave e intercambiando la estructura completa mediante una función auxiliar.
+                    Burbuja Mejorada con bandera de corte comparando campo precioFinal e intercambiando la estructura completa mediante una función auxiliar.
                   </div>
                 </div>
               </div>
-              <p class="mission-card-desc">
-                Implemente una función modular para ordenar el stock en memoria RAM de forma <strong>DESCENDENTE (mayor a menor)</strong> según el campo <code>precioFinal</code> aplicando el método de <strong>Burbuja Mejorada</strong> con bandera booleana (<code>huboIntercambio</code>) para corte temprano si el arreglo ya quedó ordenado. Cada permutación debe realizarse sobre la estructura completa utilizando una función modular auxiliar para el <strong>intercambio completo de dos estructuras</strong>, pasando ambas por referencia.
-              </p>
+              <ul style="margin: 4px 0 0 0; padding-left: 20px; font-size: 0.92em; line-height: 1.55; color: #334155;">
+                <li><strong>Entrada:</strong> Arreglo <code>Vehiculo arr[]</code> y tamaño lógico <code>tam</code>.</li>
+                <li><strong>Proceso:</strong> Ordenar en forma <strong>DESCENDENTE</strong> por <code>precioFinal</code> mediante Burbuja Mejorada con corte por bandera (<code>huboIntercambio</code>). Intercambiar las estructuras completas mediante una función modular auxiliar <code>intercambiar(Vehiculo &a, Vehiculo &b)</code>.</li>
+                <li><strong>Retorno:</strong> <code>void</code> (modificación in-place sobre el arreglo).</li>
+              </ul>
             </div>
 
             <!-- Item 6: Calculo Estadistico con Guarda Defensiva -->
             <div class="mission-card">
               <div class="mission-card-header">
                 <div class="mission-card-title">
-                  <i class="fas fa-chart-line"></i> 6. Cálculo Estadístico con Guarda Defensiva – C++
+                  <i class="fas fa-chart-line"></i> 6. Cálculo de Promedio (Estadística)
                 </div>
                 <div class="rubric-pill">
                   <span>10%</span>
@@ -1011,33 +1007,33 @@
                   </div>
                 </div>
               </div>
-              <p class="mission-card-desc">
-                Implemente una función modular para calcular el <strong>promedio del precio final</strong> de los vehículos registrados en el stock. La función debe recorrer secuencialmente el arreglo acumulando los precios finales, contar con una guarda defensiva que verifique si el arreglo está vacío (si <code>tam &le; 0</code> debe retornar <code>0.0</code> para prevenir divisiones por cero), retornar el valor promedio calculado con precisión de punto flotante y declarar el arreglo recibido como parámetro de solo lectura (por ejemplo mediante <code>const Vehiculo arr[]</code>) para garantizar la inmutabilidad de los datos.
-              </p>
+              <ul style="margin: 4px 0 0 0; padding-left: 20px; font-size: 0.92em; line-height: 1.55; color: #334155;">
+                <li><strong>Entrada:</strong> Arreglo de solo lectura (<code>const Vehiculo arr[]</code>) y tamaño lógico <code>tam</code>.</li>
+                <li><strong>Proceso:</strong> Si <code>tam &le; 0</code> retornar inmediatamente <code>0.0</code> (guarda defensiva ante división por cero). Caso contrario, acumular <code>precioFinal</code> de las celdas activas y promediar.</li>
+                <li><strong>Retorno:</strong> Promedio aritmético con precisión de punto flotante (<code>double</code>).</li>
+              </ul>
             </div>
-
-
 
             <!-- Item 7: Parte Escrita en Lápiz y Papel -->
             <div class="mission-card" style="border-left-color: var(--ucse-rosa);">
               <div class="mission-card-header">
                 <div class="mission-card-title" style="color: var(--ucse-rosa);">
-                  <i class="fas fa-pen-fancy"></i> 7. Instancia Escrita: Traza de Ordenamiento — Lápiz y Papel
+                  <i class="fas fa-pen-fancy"></i> 7. Instancia Escrita: Traza de Ordenamiento
                 </div>
                 <div class="rubric-pill" style="background: var(--ucse-rosa);">
                   <span>25%</span>
                   <div class="rubric-tooltip">
                     <strong>Traza Manual en Hoja Impresa</strong><br>
-                    Resolución paso a paso en hoja de examen indicando comparaciones, swaps/desplazamientos y prefijo consolidado.
+                    Resolución paso a paso en hoja de examen indicando comparaciones, desplazamientos y prefijo consolidado.
                   </div>
                 </div>
               </div>
-              <p class="mission-card-desc">
-                En la hoja impresa A4 provista por la cátedra, aplique el método de <strong>Inserción Directa (Insertion Sort)</strong> para ordenar de forma <strong>DESCENDENTE (mayor a menor)</strong> el vector de 5 elementos enteros <i>V</i> = [42, 18, 55, 9, 31]. Detalle en cada una de las 4 pasadas: el elemento <code>aux</code> extraído, las comparaciones realizadas contra el prefijo ordenado, los desplazamientos a la derecha ejecutados y el estado final del vector en cada paso.
-              </p>
+              <ul style="margin: 4px 0 0 0; padding-left: 20px; font-size: 0.92em; line-height: 1.55; color: #334155;">
+                <li><strong>Consigna:</strong> En la hoja impresa A4, aplique <strong>Inserción Directa (Insertion Sort)</strong> para ordenar en forma <strong>DESCENDENTE</strong> el vector <i>V</i> = [42, 18, 55, 9, 31].</li>
+                <li><strong>Detalle requerido:</strong> Detallar en cada una de las 4 pasadas: el elemento <code>aux</code> extraído, las comparaciones realizadas contra el prefijo ordenado, los desplazamientos a la derecha y el estado resultante del vector.</li>
+              </ul>
             </div>
-
-          </div>
+</div>
         </div>
 
         
@@ -1058,16 +1054,16 @@
 
           <div class="test-tabs" id="tabs-container">
             <button type="button" onclick="switchTab(0)" class="tab-btn active">
-              <i class="fas fa-terminal"></i> Caso 1: Inserción y Unicidad de Clave
+              <i class="fas fa-terminal"></i> Caso 1: Inserción y Unicidad
             </button>
             <button type="button" onclick="switchTab(1)" class="tab-btn">
-              <i class="fas fa-terminal"></i> Caso 2: Búsqueda y Modificación (PK Inmutable)
+              <i class="fas fa-terminal"></i> Caso 2: Búsqueda y Modificación
             </button>
             <button type="button" onclick="switchTab(2)" class="tab-btn">
-              <i class="fas fa-terminal"></i> Caso 3: Baja Física con Compactación del Arreglo mediante Corrimiento a la Izquierda
+              <i class="fas fa-terminal"></i> Caso 3: Baja con Compactación
             </button>
             <button type="button" onclick="switchTab(3)" class="tab-btn">
-              <i class="fas fa-terminal"></i> Caso 4: Ordenamiento y Reporte Tabular
+              <i class="fas fa-terminal"></i> Caso 4: Ordenamiento y Reporte
             </button>
           </div>
 
@@ -1306,52 +1302,6 @@ Total vehiculos en stock: 4.
             </div>
           </div>
 
-          <!-- Guía de Comprobación Defensiva (Casos Límite y Negativos) -->
-        <div style="margin-top: 24px; background: #fff1f2; border: 1px solid #fecdd3; border-left: 5px solid #e11d48; border-radius: 8px; padding: 14px 18px;">
-          <h4 style="margin: 0 0 8px 0; color: #9f1239; font-size: 1.05em;"><i class="fas fa-shield-alt"></i> Guía de Comprobación Defensiva (Casos Límite y Negativos):</h4>
-          <p style="margin: 0 0 10px 0; font-size: 0.9em; color: #881337;">
-            Verifique la robustez de sus funciones implementadas ante las siguientes situaciones anómalas:
-          </p>
-          <div style="overflow-x: auto;">
-            <table style="width: 100%; border-collapse: collapse; font-size: 0.88em; text-align: left; background: #ffffff; border-radius: 4px; overflow: hidden;">
-              <thead>
-                <tr style="background: #ffe4e6; color: #881337; border-bottom: 2px solid #fda4af;">
-                  <th style="padding: 8px 12px; width: 25%;">Escenario Evaluado</th>
-                  <th style="padding: 8px 12px; width: 35%;">Entrada / Condición de Prueba</th>
-                  <th style="padding: 8px 12px;">Comportamiento y Retorno Esperado</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr style="border-bottom: 1px solid #fecdd3;">
-                  <td style="padding: 7px 12px; font-weight: 600; color: #9f1239;">Clave Duplicada</td>
-                  <td style="padding: 7px 12px;">Intentar dar de alta una clave ya existente</td>
-                  <td style="padding: 7px 12px;">Rechazar la operación retornando <code>false</code>; <code>tam</code> permanece inalterado.</td>
-                </tr>
-                <tr style="border-bottom: 1px solid #fecdd3;">
-                  <td style="padding: 7px 12px; font-weight: 600; color: #9f1239;">Posición Inválida</td>
-                  <td style="padding: 7px 12px;">Intentar insertar en posición <code>pos &lt; 0</code> o <code>pos &gt; tam</code></td>
-                  <td style="padding: 7px 12px;">Rechazar retornando <code>false</code> sin modificar ninguna celda ni desplazar memoria.</td>
-                </tr>
-                <tr style="border-bottom: 1px solid #fecdd3;">
-                  <td style="padding: 7px 12px; font-weight: 600; color: #9f1239;">Capacidad Agotada</td>
-                  <td style="padding: 7px 12px;">Intentar insertar cuando <code>tam == CAPACIDAD</code> (15)</td>
-                  <td style="padding: 7px 12px;">Rechazar por cupo lleno retornando <code>false</code> para prevenir desbordamiento.</td>
-                </tr>
-                <tr style="border-bottom: 1px solid #fecdd3;">
-                  <td style="padding: 7px 12px; font-weight: 600; color: #9f1239;">Clave Inexistente</td>
-                  <td style="padding: 7px 12px;">Búsqueda, Modificación o Baja de un código inexistente (ej. 9999)</td>
-                  <td style="padding: 7px 12px;">Búsqueda retorna <code>-1</code>; Modificación y Baja retornan <code>false</code> informando no encontrado.</td>
-                </tr>
-                <tr>
-                  <td style="padding: 7px 12px; font-weight: 600; color: #9f1239;">Arreglo Vacío</td>
-                  <td style="padding: 7px 12px;">Calcular promedio estadístico con tamaño lógico <code>tam == 0</code></td>
-                  <td style="padding: 7px 12px;">Guarda defensiva actúa inmediatamente retornando <code>0.0</code> (evita división por cero).</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
         </div>
 
         <!-- Código Base C++ con Structs -->
@@ -1364,16 +1314,21 @@ Total vehiculos en stock: 4.
             Inicie su desarrollo copiando la siguiente plantilla oficial con la estructura modular, prototipos y menú interactivo:
           </p>
           <div class="terminal-box">
-            <div class="terminal-header">
+            <div class="terminal-header" style="display: flex; justify-content: space-between; align-items: center;">
               <div class="terminal-title" style="color: #ffd800;"><i class="fab fa-cuttlefish"></i> codigo_base_tema2.cpp</div>
-              <div class="terminal-dots">
-                <span class="terminal-dot dot-red"></span>
-                <span class="terminal-dot dot-yellow"></span>
-                <span class="terminal-dot dot-green"></span>
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <button type="button" onclick="navigator.clipboard.writeText(document.getElementById('code-plantilla').innerText); this.innerHTML='<i class=\'fas fa-check\'></i> ¡Copiado!'; setTimeout(() => this.innerHTML='<i class=\'fas fa-copy\'></i> Copiar Plantilla', 2000);" style="background: #334155; color: #f8fafc; border: 1px solid #475569; border-radius: 4px; padding: 4px 10px; font-size: 0.78em; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 5px;">
+                  <i class="fas fa-copy"></i> Copiar Plantilla
+                </button>
+                <div class="terminal-dots">
+                  <span class="terminal-dot dot-red"></span>
+                  <span class="terminal-dot dot-yellow"></span>
+                  <span class="terminal-dot dot-green"></span>
+                </div>
               </div>
             </div>
-            <div class="terminal-body">
-              <pre class="console" style="color: #e2e8f0;">#include &lt;iostream&gt;
+            <div class="terminal-body" style="max-height: 380px; overflow-y: auto;">
+              <pre id="code-plantilla" class="console" style="color: #e2e8f0;">#include &lt;iostream&gt;
 #include &lt;iomanip&gt;
 
 using namespace std;
@@ -1513,62 +1468,6 @@ void mostrarTabla(const Vehiculo arr[], int tam) {
 }
 </pre>
             </div>
-          </div>
-        </div>
-
-        <!-- Rúbrica Oficial de Evaluación Bimodal -->
-        <div class="grading-section">
-          <h2><i class="fas fa-award"></i> RÚBRICA DE EVALUACIÓN DEL SIMULACRO (75% C++ + 25% ESCRITA)</h2>
-          <p>
-            La evaluación es bimodal. Se ponderarán las 6 funciones algorítmicas principales y una función auxiliar de intercambio de estructuras en C++ sobre la computadora y la traza manual en lápiz y papel:
-          </p>
-          <div class="wp-block-table">
-            <table>
-              <thead>
-                <tr>
-                  <th>Bloque Evaluado</th>
-                  <th>Criterio Técnico y Pedagógico</th>
-                  <th>Ponderación</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><strong>1. Búsqueda por Clave Primaria (Read)</strong></td>
-                  <td>Retorno de índice o centinela -1, const-correctness (solo lectura). Salida temprana inmediata al hallar la clave, sin recorrer celdas innecesarias.</td>
-                  <td><strong>10%</strong> (C++)</td>
-                </tr>
-                <tr>
-                  <td><strong>2. Alta / Inserción con Unicidad de Clave (Create)</strong></td>
-                  <td>Validación de cupo (tam &lt; capacidad) y posición (0..tam). Reutilización modular recomendada de búsqueda (buena práctica de modularidad para evitar duplicados), corrimiento Right-Shift y tam++.</td>
-                  <td><strong>15%</strong> (C++)</td>
-                </tr>
-                <tr>
-                  <td><strong>3. Modificación con Clave Inmutable (Update)</strong></td>
-                  <td>Reutilización modular recomendada de la búsqueda, modificación in-place exclusivamente de descuentoPorc, preservación de codigo, anioFabricacion, categoria y precioLista, y recálculo correcto de precioFinal.</td>
-                  <td><strong>10%</strong> (C++)</td>
-                </tr>
-                <tr>
-                  <td><strong>4. Baja Física con Compactación del Arreglo (Delete)</strong></td>
-                  <td>Reutilización modular recomendada de búsqueda, compactación del arreglo mediante corrimiento a la izquierda (Left-Shift) y tam--.</td>
-                  <td><strong>15%</strong> (C++)</td>
-                </tr>
-                <tr>
-                  <td><strong>5. Ordenamiento Burbuja con Intercambio de Estructuras (Sort)</strong></td>
-                  <td>Burbuja Mejorada con bandera de corte <code>huboIntercambio</code> (terminación anticipada si ya está ordenado), comparación estricta e intercambio completo de estructuras mediante una función auxiliar.</td>
-                  <td><strong>15%</strong> (C++)</td>
-                </tr>
-                <tr>
-                  <td><strong>6. Cálculo Estadístico con Guarda Defensiva (Stats)</strong></td>
-                  <td>Recorrido secuencial acumulador, const-correctness (solo lectura) y guarda defensiva (<code>tam &le; 0</code> retorna 0.0) para prevenir división por cero.</td>
-                  <td><strong>10%</strong> (C++)</td>
-                </tr>
-                <tr>
-                  <td><strong>7. Instancia Escrita: Traza de Ordenamiento</strong></td>
-                  <td>Resolución manuscrita en hoja A4 de examen: pasadas exactas, elemento clave (aux), comparaciones y desplazamientos, inserción en hueco y prefijo ordenado consolidado.</td>
-                  <td><strong>25%</strong> (Papel)</td>
-                </tr>
-              </tbody>
-            </table>
           </div>
         </div>
 

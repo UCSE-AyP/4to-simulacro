@@ -51,3 +51,4 @@ g++ -std=c++17 -Wall -Wextra resolucion-tema2.cpp -o tema2.exe
 - **`SDD.md` (Software Design Document):** Especificación formal de arquitectura, modelos de structs (`100% tipos primitivos`), contratos de precondición/postcondición y matrices de prueba.
 - **`rubrica.md`:** Rúbrica analítica oficial de corrección para el equipo docente (ponderación 75% C++ / 25% Escrita).
 - **`rubrica_estudiantes.md`:** Criterios de evaluación y escalas de acreditación en lenguaje transparente para estudiantes.
+
