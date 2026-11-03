@@ -1,0 +1,12 @@
+# Compilados y binarios
+*.exe
+*.o
+*.obj
+*.out
+
+# Entornos y proyectos
+.vscode/
+.idea/
+*.layout
+*.depend
+*.cbp
