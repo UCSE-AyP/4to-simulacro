@@ -1,0 +1,1622 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📚 Examen M4 - Tema 1 (Sistema de Gestión de Biblioteca (AoS)) - UCSE</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <!-- Google Fonts Fira Code -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+      /* Paleta de colores institucional UCSE (https://www.ucse.edu.ar/) */
+      :root {
+        --ucse-azul-oscuro: #1f3763;
+        --ucse-azul-medio: #2a5298;
+        --ucse-amarillo: #ffd800;
+        --ucse-cian: #00bfff;
+        --ucse-rosa: #ff007f;
+        --ucse-blanco: #ffffff;
+        --ucse-gris-fondo: #f8f9fa;
+        --ucse-texto: #333333;
+      }
+
+      /* Robustez y compatibilidad de tipografías offline para laboratorios */
+    @font-face {
+      font-family: 'Fira Code';
+      src: local('Consolas'), local('Courier New'), monospace;
+    }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+    }
+    code, pre, .console {
+      font-family: 'Fira Code', 'Consolas', 'Courier New', monospace;
+    }
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        color: var(--ucse-texto);
+        background-color: var(--ucse-gris-fondo);
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+      }
+
+      a {
+        text-decoration: none;
+        color: #464feb;
+      }
+
+      tr th, tr td {
+        border: 1px solid #e6e6e6;
+      }
+
+      tr th {
+        background-color: #f5f5f5;
+        color: #1f3763;
+      }
+
+      h1, h2, h3, h4, h5, h6 {
+        text-wrap: balance;
+      }
+
+      p, li, blockquote {
+        text-wrap: pretty;
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(15px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      @keyframes slideInLeft {
+        from { opacity: 0; transform: translateX(-25px); }
+        to { opacity: 1; transform: translateX(0); }
+      }
+
+      @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.03); }
+      }
+
+      @keyframes rotate {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+
+      @keyframes shimmer {
+        0% { background-position: -1000px 0; }
+        100% { background-position: 1000px 0; }
+      }
+
+      /* Encabezado UCSE */
+      .header-ucse {
+        background: linear-gradient(135deg, #1f3763 0%, #2a5298 100%);
+        color: #ffffff;
+        padding: 22px 0;
+        text-align: center;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .header-ucse::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+        animation: rotate 20s linear infinite;
+      }
+
+      .header-ucse .logo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        margin-bottom: 8px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .header-ucse .logo img,
+      .header-ucse .logo .logo-shield {
+        height: 76px;
+        width: 76px;
+        border-radius: 50%;
+        box-shadow: 0 2px 10px rgba(255, 255, 255, 0.25);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.15);
+        color: #ffd800;
+        font-size: 34px;
+        border: 2px solid rgba(255, 216, 0, 0.6);
+      }
+
+      .header-ucse .logo img:hover,
+      .header-ucse .logo .logo-shield:hover {
+        transform: scale(1.08) rotate(4deg);
+        box-shadow: 0 4px 20px rgba(255, 216, 0, 0.45);
+      }
+
+      .header-ucse h1 {
+        margin: 0;
+        font-size: 2.2em;
+        font-weight: 500;
+        letter-spacing: 0.8px;
+        color: #ffffff;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .header-ucse .subtitle {
+        font-size: 1.1em;
+        color: #e2e8f0;
+        margin-top: 5px;
+      }
+
+      /* Barra de navegación estilo UCSE */
+      .wp-block-navigation {
+        background: #1f3763;
+        padding: 0;
+        margin: 0;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+
+      .nav-menu {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .nav-menu li {
+        margin: 0;
+      }
+
+      .nav-menu a {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 14px 20px;
+        color: #ffffff;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 0.95em;
+        transition: all 0.3s ease;
+        border-bottom: 3px solid transparent;
+      }
+
+      .nav-menu a:hover {
+        background: #00bfff;
+        color: #ffffff;
+        border-bottom-color: #ffd800;
+      }
+
+      .nav-menu a.active {
+        background: #ff007f;
+        color: #ffffff;
+        border-bottom-color: #ffd800;
+        font-weight: 600;
+      }
+
+      /* Contenedor Principal */
+      .main-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      .content-section {
+        background: #ffffff;
+        padding: 32px;
+        margin: 24px 0;
+        border-radius: 8px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        animation: fadeIn 0.6s ease-out;
+      }
+
+      .content-section h1 {
+        color: var(--ucse-azul-oscuro);
+        margin-top: 0;
+        border-bottom: 3px solid var(--ucse-cian);
+        padding-bottom: 12px;
+      }
+
+      /* Header Bar de la Evaluación */
+      .exam-header-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 16px;
+        margin-bottom: 24px;
+        border-bottom: 3px solid var(--ucse-cian);
+        padding-bottom: 16px;
+      }
+
+      .exam-badges {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-bottom: 10px;
+      }
+
+      .main-exam-title {
+        border-bottom: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        color: var(--ucse-azul-oscuro);
+        font-size: 2.1em;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .badge-tema-code {
+        background: linear-gradient(135deg, #1f3763 0%, #2a5298 100%);
+        color: #ffd800;
+        font-size: 1.35em;
+        font-weight: 800;
+        letter-spacing: 2px;
+        padding: 8px 18px;
+        border-radius: 10px;
+        border: 2px solid #ffd800;
+        box-shadow: 0 4px 12px rgba(31, 55, 99, 0.25);
+        text-align: center;
+      }
+
+      /* Alertas y Secciones de Ejercicio */
+      .requirements-alert {
+        background: linear-gradient(135deg, #ffd800 0%, #ffe066 100%);
+        color: #1a1a1a;
+        padding: 20px 24px;
+        border-radius: 8px;
+        margin: 20px 0;
+        border-left: 5px solid #ff007f;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .requirements-alert:hover {
+        transform: translateX(4px);
+        box-shadow: 0 4px 15px rgba(255, 216, 0, 0.35);
+      }
+
+      .exercise-section {
+        background: #f8f9fa;
+        border: 2px solid #00bfff;
+        border-radius: 8px;
+        padding: 25px;
+        margin: 25px 0;
+        position: relative;
+        transition: all 0.3s ease;
+      }
+
+      .exercise-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #00bfff, #ffd800, #ff007f);
+        background-size: 200% 100%;
+        border-radius: 4px 4px 0 0;
+        animation: shimmer 3s linear infinite;
+      }
+
+      .exercise-section:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 25px rgba(0, 191, 255, 0.18);
+        border-color: #ffd800;
+      }
+
+      .exercise-title {
+        color: #1f3763;
+        margin-top: 0;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #e2e8f0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 10px;
+        font-size: 1.35em;
+      }
+
+      .exercise-weight {
+        background: #00bfff;
+        color: #ffffff;
+        padding: 4px 14px;
+        border-radius: 20px;
+        font-size: 0.82em;
+        font-weight: 700;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .icon-text {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 14px 0;
+      }
+
+      .icon-text i {
+        color: #00bfff;
+        font-size: 20px;
+        flex-shrink: 0;
+      }
+
+      .requirements-alert .icon-text i {
+        color: #1f3763;
+      }
+
+      /* Misión y Tarjetas de Tareas */
+      .mission-list {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        margin: 18px 0;
+      }
+
+      .mission-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-left: 5px solid var(--ucse-azul-oscuro);
+        border-radius: 8px;
+        padding: 16px 20px;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+        position: relative;
+      }
+
+      .mission-card:hover {
+        transform: translateX(4px);
+        border-left-color: var(--ucse-cian);
+        box-shadow: 0 4px 15px rgba(0, 191, 255, 0.15);
+      }
+
+      .mission-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 8px;
+      }
+
+      .mission-card-title {
+        font-weight: 700;
+        color: var(--ucse-azul-oscuro);
+        font-size: 1.05em;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .mission-card-desc {
+        margin: 0;
+        color: #475569;
+        font-size: 0.95em;
+        line-height: 1.55;
+      }
+
+      /* Tooltips Interactivos de Rúbrica */
+      .rubric-pill {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        background: linear-gradient(135deg, #1f3763 0%, #2a5298 100%);
+        color: #ffd800;
+        font-weight: 700;
+        font-size: 0.85em;
+        padding: 4px 12px;
+        border-radius: 20px;
+        border: 1px solid rgba(255, 216, 0, 0.5);
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .rubric-pill:hover {
+        background: #ff007f;
+        color: #ffffff;
+        border-color: #ffd800;
+      }
+
+      .rubric-tooltip {
+        position: absolute;
+        bottom: calc(100% + 10px);
+        right: 0;
+        width: 270px;
+        background: #1f3763;
+        color: #ffffff;
+        padding: 12px 14px;
+        border-radius: 8px;
+        font-size: 0.82em;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+        border: 1px solid #ffd800;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.25s ease;
+        z-index: 50;
+        pointer-events: none;
+        line-height: 1.4;
+      }
+
+      .rubric-tooltip::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        right: 20px;
+        border-width: 6px;
+        border-style: solid;
+        border-color: #ffd800 transparent transparent transparent;
+      }
+
+      .rubric-pill:hover .rubric-tooltip {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(-4px);
+      }
+
+      /* Tabs de Casos de Prueba */
+      .test-tabs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 18px;
+        border-bottom: 2px solid #e2e8f0;
+        padding-bottom: 10px;
+      }
+
+      .tab-btn {
+        background: #ffffff;
+        color: var(--ucse-azul-oscuro);
+        border: 2px solid #cbd5e1;
+        border-radius: 8px;
+        padding: 10px 18px;
+        font-weight: 600;
+        font-size: 0.92em;
+        cursor: pointer;
+        transition: all 0.25s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .tab-btn:hover {
+        background: #f1f5f9;
+        border-color: var(--ucse-cian);
+        color: var(--ucse-azul-medio);
+      }
+
+      .tab-btn.active {
+        background: linear-gradient(135deg, #1f3763 0%, #2a5298 100%);
+        color: #ffffff;
+        border-color: #ffd800;
+        box-shadow: 0 4px 12px rgba(31, 55, 99, 0.25);
+      }
+
+      .tab-content {
+        display: none;
+        opacity: 0;
+        transition: all 0.3s ease-in-out;
+      }
+
+      .tab-content.active {
+        display: block;
+        opacity: 1;
+        animation: fadeIn 0.4s ease-in-out;
+      }
+
+      .test-case-grid {
+        display: grid;
+        grid-template-columns: 4fr 8fr;
+        gap: 16px;
+      }
+
+      @media (max-width: 900px) {
+        .test-case-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Terminales y Consolas de Código */
+      .terminal-box {
+        background: #0f172a;
+        border: 1px solid #334155;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+      }
+
+      .terminal-header {
+        background: #1e293b;
+        padding: 9px 14px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid #334155;
+      }
+
+      .terminal-title {
+        font-size: 0.8em;
+        font-weight: 700;
+        letter-spacing: 0.8px;
+        text-transform: uppercase;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .terminal-dots {
+        display: flex;
+        gap: 6px;
+      }
+
+      .terminal-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+      }
+
+      .dot-red { background: #ef4444; }
+      .dot-yellow { background: #f59e0b; }
+      .dot-green { background: #10b981; }
+
+      .terminal-body {
+        padding: 16px;
+        overflow-x: auto;
+      }
+
+      .console {
+        font-family: 'Fira Code', 'Consolas', 'Courier New', monospace;
+        font-size: 0.88em;
+        line-height: 1.55;
+        margin: 0;
+        white-space: pre-wrap;
+      }
+
+      .console-input {
+        color: #93c5fd;
+      }
+
+      .console-output {
+        color: #4ade80;
+      }
+
+      /* Tablas estilo WordPress UCSE */
+      .wp-block-table {
+        margin: 20px 0;
+        border-radius: 8px;
+        overflow-x: auto;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .wp-block-table table {
+        width: 100%;
+        border-collapse: collapse;
+        background: #ffffff;
+      }
+
+      .wp-block-table th {
+        background-color: #f5f5f5;
+        color: #1f3763;
+        padding: 14px 15px;
+        text-align: left;
+        font-weight: 600;
+        border: 1px solid #e6e6e6;
+      }
+
+      .wp-block-table td {
+        padding: 12px 15px;
+        border: 1px solid #e6e6e6;
+        color: #333333;
+      }
+
+      .wp-block-table tr:nth-child(even) td {
+        background: #f8f9fa;
+      }
+
+      /* Rúbrica y Sección de Evaluación */
+      .grading-section {
+        background: linear-gradient(135deg, #ff007f 0%, #c90063 100%);
+        color: #ffffff;
+        padding: 28px;
+        border-radius: 8px;
+        margin: 28px 0;
+      }
+
+      .grading-section h2,
+      .grading-section > p {
+        color: #ffffff;
+      }
+
+      .grading-section h2 {
+        margin-top: 0;
+      }
+
+      .grading-section .wp-block-table table {
+        background: #ffffff;
+      }
+
+      .grading-section .wp-block-table th {
+        background-color: #f1f5f9 !important;
+        color: #1f3763 !important;
+        font-weight: 700;
+      }
+
+      .grading-section .wp-block-table td {
+        color: #1e293b !important;
+      }
+
+      .grading-section .wp-block-table td strong {
+        color: #1f3763 !important;
+        font-weight: 700;
+      }
+
+      .grading-section .wp-block-table td:last-child strong {
+        color: #c90063 !important;
+        font-weight: 700;
+        font-size: 1.05em;
+      }
+
+      /* Condiciones Formales */
+      .conditions-section {
+        background: #f8fafc;
+        border: 2px solid #e2e8f0;
+        border-left: 6px solid #1f3763;
+        border-radius: 8px;
+        padding: 24px;
+        margin: 28px 0;
+      }
+
+      .conditions-section h2 {
+        color: #1f3763;
+        margin-top: 0;
+        font-size: 1.35em;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      /* Footer */
+      .footer-info {
+        background: #1f3763;
+        color: #ffffff;
+        padding: 22px;
+        text-align: center;
+        margin-top: 40px;
+        border-top: 4px solid #ffd800;
+      }
+
+      .footer-info p {
+        margin: 5px 0;
+        color: #e2e8f0;
+      }
+
+      /* Media Queries */
+      @media (max-width: 768px) {
+        .header-ucse .logo { flex-direction: column; gap: 10px; }
+        .header-ucse h1 { font-size: 1.8em; }
+        .nav-menu { flex-direction: column; }
+        .nav-menu a { justify-content: center; }
+        .content-section { padding: 20px; }
+        .exam-header-bar { flex-direction: column; align-items: flex-start; }
+      }
+    </style>
+</head>
+<body class="">
+
+    <!-- Encabezado Institucional UCSE -->
+    <header class="header-ucse">
+      <div class="main-container">
+        <div class="logo">
+          <div class="logo-shield">
+            <i class="fas fa-university"></i>
+          </div>
+          <div>
+            <h1>Universidad Católica de Santiago del Estero</h1>
+            <div class="subtitle">Facultad de Ciencias de la Salud y Tecnologías de la Información • Algoritmos y Programación (2026)</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Navegación Sticky estilo UCSE -->
+    <nav class="wp-block-navigation" aria-label="Navegación de temas del examen">
+      <ul class="nav-menu">
+        <li>
+          <a href="index.html">
+            <i class="fas fa-home"></i>
+            <span>Portal General</span>
+          </a>
+        </li>
+        <li>
+          <a href="tema1.html" id="nav-tema-1">
+            <i class="fas fa-file-code"></i>
+            <span>Tema 1</span>
+          </a>
+        </li>
+        <li>
+          <a href="tema2.html" id="nav-tema-2">
+            <i class="fas fa-file-code"></i>
+            <span>Tema 2</span>
+          </a>
+        </li>
+        <li>
+          <a href="prueba_escritorio_imprimir.html" id="nav-escrita">
+            <i class="fas fa-pen-fancy"></i>
+            <span>Instancia Escrita (A4)</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Contenido Principal -->
+    <div class="main-container   ">
+      <div class="content-section">
+        
+        <!-- Header del Tema Evaluativo -->
+        <div class="exam-header-bar">
+          <div>
+            <div class="exam-badges">
+              <span class="exercise-weight" style="background: var(--ucse-rosa);">4.º Simulacro de Examen — Tema 1</span>
+              <span class="exercise-weight" style="background: var(--ucse-azul-medio);">Módulo 4: Arreglos de Structs en C++</span>
+              <span class="exercise-weight" style="background: #10b981;"><i class="fas fa-balance-scale"></i> Bimodal: 75% C++ + 25% Escrita</span>
+            </div>
+            <h1 class="main-exam-title ">
+              <i class="fas fa-clipboard-list"></i> 📚 Tema 1: Sistema de Gestión de Biblioteca (AoS)
+            </h1>
+          </div>
+          <div>
+            <div class="badge-tema-code">
+              TEMA 1<br><small>Biblioteca</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contexto del Problema -->
+        <div class="requirements-alert">
+          <div class="icon-text" style="align-items: flex-start;">
+            <i class="fas fa-info-circle"></i>
+            <div>
+              <h3 style="margin: 0 0 8px 0; color: #1f3763; font-size: 1.25em;"><i class="fas fa-book-reader"></i> Contexto de Gestión del Sistema</h3>
+              <div style="font-size: 1.05em; line-height: 1.7; color: #1a1a1a;">
+                <p style="margin: 0;">La Biblioteca Universitaria requiere modernizar su inventario en memoria RAM mediante un Arreglo de Estructuras (AoS). Cada ejemplar está modelado por el struct <code>Libro</code> compuesto <strong>exclusivamente por tipos de datos primitivos</strong> (<code>codigo</code>, <code>anioPub</code>, <code>antiguedad</code>, <code>categoria</code>, <code>precioBase</code> e <code>importeAlquiler</code>), garantizando una lectura directa con <code>cin &gt;&gt;</code> sin interferencias de saltos de línea ni buffers. Toda la capa de visualización tabular con <code>&lt;iomanip&gt;</code> y menús ya viene resuelta por la cátedra. El alumno debe implementar las 6 funciones algorítmicas principales y una función auxiliar de intercambio de estructuras (Búsqueda por código, Inserción con unicidad y corrimiento a derecha, Modificación in-place con clave inmutable, Baja física con compactación del arreglo mediante corrimiento a la izquierda, Ordenamiento Burbuja Ascendente por <code>precioBase</code> y Cálculo Estadístico de Promedio con guarda defensiva) y resolver en la hoja provista la traza de <strong>Selección Directa</strong>.</p>
+        <!-- Especificacion del Modelo de Datos (Struct) en el Enunciado -->
+        <div class="data-model-card" style="margin-top: 16px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+          <div style="background: #f8fafc; border-bottom: 1px solid #e2e8f0; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+            <span style="font-weight: 700; color: #1e3a8a; font-size: 0.95em;"><i class="fas fa-table"></i> ESPECIFICACIÓN DEL MODELO: <code>struct Libro</code> (A definir por el estudiante)</span>
+            <span style="background: #e0f2fe; color: #0369a1; padding: 3px 10px; border-radius: 9999px; font-size: 0.8em; font-weight: 600;">Tipos Primitivos Exclusivos</span>
+          </div>
+          <div style="padding: 14px 16px;">
+            <p style="margin: 0 0 12px 0; font-size: 0.93em; color: #334155; line-height: 1.5;">
+              Cada ejemplar del catálogo de la biblioteca está modelado por el struct <code>Libro</code>. El alumno debe declararlo en el código fuente utilizando <strong>exclusivamente tipos de datos primitivos</strong> (deduciendo el tipo correspondiente para cada campo según su dominio y rango):
+            </p>
+            <div style="overflow-x: auto;">
+              <table style="width: 100%; border-collapse: collapse; font-size: 0.88em; text-align: left;">
+                <thead>
+                  <tr style="background: #f1f5f9; border-bottom: 2px solid #cbd5e1; color: #1e293b;">
+                    <th style="padding: 9px 12px; width: 20%; font-weight: 700;">Campo</th>
+                    <th style="padding: 9px 12px; width: 25%; font-weight: 700;">Rol en Dominio</th>
+                    <th style="padding: 9px 12px; font-weight: 700;">Descripción, Tipo Inferido y Regla de Negocio</th>
+                  </tr>
+                </thead>
+                <tbody>
+                <tr style="border-bottom: 1px solid #e2e8f0;">
+                  <td style="padding: 9px 12px; font-weight: 600; color: #1e3a8a;"><code>codigo</code></td>
+                  <td style="padding: 9px 12px; color: #0f766e; font-weight: 600;">Clave Primaria (PK)</td>
+                  <td style="padding: 9px 12px; color: #334155; line-height: 1.45;">Número entero positivo unívoco. Identificador inmutable del ejemplar bibliográfico.</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #e2e8f0;">
+                  <td style="padding: 9px 12px; font-weight: 600; color: #1e3a8a;"><code>anioPub</code></td>
+                  <td style="padding: 9px 12px; color: #0f766e; font-weight: 600;">Atributo de Datos</td>
+                  <td style="padding: 9px 12px; color: #334155; line-height: 1.45;">Año de publicación del libro (número entero, 1500 &le; anioPub &le; 2026).</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #e2e8f0;">
+                  <td style="padding: 9px 12px; font-weight: 600; color: #1e3a8a;"><code>antiguedad</code></td>
+                  <td style="padding: 9px 12px; color: #0f766e; font-weight: 600;">Campo Derivado</td>
+                  <td style="padding: 9px 12px; color: #334155; line-height: 1.45;">Número entero calculado: antiguedad = 2026 - anioPub.</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #e2e8f0;">
+                  <td style="padding: 9px 12px; font-weight: 600; color: #1e3a8a;"><code>categoria</code></td>
+                  <td style="padding: 9px 12px; color: #0f766e; font-weight: 600;">Campo Clasificador</td>
+                  <td style="padding: 9px 12px; color: #334155; line-height: 1.45;">Carácter derivado: 'N' (Nuevo: antiguedad &le; 5 años), 'R' (Regular: 6 &le; antiguedad &le; 20), 'A' (Antiguo: antiguedad &gt; 20).</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #e2e8f0;">
+                  <td style="padding: 9px 12px; font-weight: 600; color: #1e3a8a;"><code>precioBase</code></td>
+                  <td style="padding: 9px 12px; color: #0f766e; font-weight: 600;">Atributo Monetario</td>
+                  <td style="padding: 9px 12px; color: #334155; line-height: 1.45;">Tarifa arancelaria base diaria de alquiler (número real con decimales, &gt; 0.0).</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #e2e8f0;">
+                  <td style="padding: 9px 12px; font-weight: 600; color: #1e3a8a;"><code>importeAlquiler</code></td>
+                  <td style="padding: 9px 12px; color: #0f766e; font-weight: 600;">Campo Derivado</td>
+                  <td style="padding: 9px 12px; color: #334155; line-height: 1.45;">Monto final calculado según categoría: 'N' (+20% -> precioBase * 1.20), 'R' (+15% -> precioBase * 1.15), 'A' (+10% -> precioBase * 1.10).</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+            <div style="margin-top: 14px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 6px; padding: 12px 16px; font-size: 0.9em; color: #166534;">
+              <strong><i class="fas fa-calculator"></i> Reglas de Negocio y Fórmulas de Cálculo:</strong>
+              <ul style="margin: 6px 0 0 18px; padding: 0; line-height: 1.5;">
+                <li><code>antiguedad</code> = <code>2026 - anioPub</code>.</li>
+                <li><code>categoria</code>: si <code>antiguedad &le; 5</code> &rarr; <code>'N'</code>; si <code>antiguedad &le; 20</code> &rarr; <code>'R'</code>; caso contrario &rarr; <code>'A'</code>.</li>
+                <li><code>importeAlquiler</code>: si categoría es <code>'N'</code> aplica +20% (<code>precioBase * 1.20</code>); si es <code>'R'</code> aplica +15% (<code>precioBase * 1.15</code>); si es <code>'A'</code> aplica +10% (<code>precioBase * 1.10</code>).</li>
+              </ul>
+            </div>
+          <div style="margin-top: 12px; background: #fffbeb; border: 1px solid #fef3c7; border-left: 4px solid #f59e0b; border-radius: 6px; padding: 10px 14px; font-size: 0.9em; color: #92400e;">
+              <strong><i class="fas fa-exclamation-triangle"></i> Orden Obligatorio de Miembros en el Struct:</strong> Declare los campos del struct respetando <strong>estrictamente el mismo orden en que aparecen en la tabla</strong>. Esto es indispensable para que la inicialización por lista de llaves <code>{ ... }</code> del arreglo precargado provista en <code>main()</code> compile sin errores de tipos ni desfasaje de columnas.
+            </div>
+          </div>
+        </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        
+
+        <!-- Tu Misión (Bimodal: 75% C++ + 25% Lápiz y Papel) -->
+        <div class="exercise-section">
+          <h2 class="exercise-title">
+            <span><i class="fas fa-code"></i> TU MISIÓN BIMODAL (75% C++ + 25% ESCRITA)</span>
+            <span class="exercise-weight"><i class="fas fa-check-circle"></i> 100% Calificación</span>
+          </h2>
+          
+          <div class="requirements-alert" style="background: #f0fdf4; border-left: 5px solid #16a34a; margin-bottom: 24px;">
+            <div class="icon-text" style="align-items: flex-start;">
+              <i class="fas fa-layer-group" style="color: #16a34a;"></i>
+              <div>
+                <h4 style="margin: 0 0 6px 0; color: #166534; font-size: 1.1em;">Arquitectura de Software: Código Base y Alcance de Implementación</h4>
+                <p style="margin: 0; font-size: 0.98em; line-height: 1.6; color: #14532d;">
+                  Las funciones de presentación tabular y el menú están preimplementados. El estudiante deberá completar en el <code>switch</code> la lectura de los datos, la validación correspondiente, las llamadas a las funciones y la presentación de los resultados.
+                </p>
+                <p style="margin: 8px 0 0 0; font-size: 0.95em; line-height: 1.5; color: #14532d;">
+                  <strong>Responsabilidad del Estudiante:</strong> Declarar los campos del <code>struct</code> en base al modelo de datos, definir los prototipos de las funciones, implementar las <strong>6 funciones algorítmicas principales y una función auxiliar de intercambio de estructuras</strong> en C++ y resolver en hoja manuscrita la <strong>traza manual de ordenamiento</strong>.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="mission-list">
+            
+            <!-- Item 1: Búsqueda por Clave Primaria -->
+            <div class="mission-card">
+              <div class="mission-card-header">
+                <div class="mission-card-title">
+                  <i class="fas fa-search"></i> 1. Búsqueda por Clave Primaria (Read) — C++
+                </div>
+                <div class="rubric-pill">
+                  <span>10%</span>
+                  <div class="rubric-tooltip">
+                    <strong>Búsqueda por Clave Primaria</strong><br>
+                    Retorno de índice de celda o centinela -1, salida temprana inmediata al hallar la clave y const-correctness (solo lectura).
+                  </div>
+                </div>
+              </div>
+              <p class="mission-card-desc">
+                Implemente una función modular para realizar la <strong>búsqueda lineal</strong> por clave primaria. La función debe recorrer secuencialmente el arreglo y, al encontrar la coincidencia, retornar inmediatamente la posición (<code>0 .. tam-1</code>) mediante una salida temprana. Si el elemento no existe, debe retornar <code>-1</code> como valor centinela. Declare el arreglo recibido como parámetro de solo lectura, por ejemplo mediante <code>const Libro arr[]</code>.
+              </p>
+            </div>
+
+            <!-- Item 2: Alta / Inserción con Unicidad de Clave -->
+            <div class="mission-card">
+              <div class="mission-card-header">
+                <div class="mission-card-title">
+                  <i class="fas fa-plus-circle"></i> 2. Alta / Inserción con Unicidad de Clave (Create) — C++
+                </div>
+                <div class="rubric-pill">
+                  <span>15%</span>
+                  <div class="rubric-tooltip">
+                    <strong>Alta con Unicidad de Clave</strong><br>
+                    Control de capacidad (tam &lt; CAPACIDAD), verificación recomendada de no-duplicado reutilizando búsqueda (buenas prácticas de modularidad) y tam++.
+                  </div>
+                </div>
+              </div>
+              <p class="mission-card-desc">
+                Implemente una función modular para realizar el <strong>alta / inserción</strong> de un nuevo libro en una posición indicada del arreglo. La función debe: verificar la existencia de cupo físico disponible (<code>tam &lt; capacidad</code>), validar que la posición de inserción sea admisible dentro del rango activo (<code>0 .. tam</code>) y garantizar la <strong>unicidad de la clave primaria</strong>. Para alcanzar la máxima valoración de modularidad, deberá verificar la no existencia de la clave primaria reutilizando la función de búsqueda previamente implementada. Una búsqueda lineal integrada dentro de la función se considerará funcional, pero recibirá una valoración menor en el criterio de modularidad. Si la clave ya existe, si el cupo está agotado o si la posición es inválida, debe rechazar la operación informando fracaso (retornando <code>false</code>). Si la operación es válida, debe desplazar los elementos posteriores hacia la derecha (Right-Shift), insertar el nuevo registro en la posición indicada, actualizar el tamaño activo del arreglo e informar éxito (retornando <code>true</code>).
+              </p>
+                  <div style="margin-top: 10px; padding: 8px 12px; background: #f0f9ff; border-left: 3px solid #0284c7; border-radius: 4px; font-size: 0.9em; color: #0369a1;">
+                    <strong><i class="fas fa-info-circle"></i> Responsabilidad de Cálculo:</strong> Los campos derivados se calculan en la interacción con el usuario (en el <code>case 3:</code> del <code>switch</code>) al estructurar la variable temporal <code>nuevo</code> antes de invocar la función. De este modo, la función algorítmica de inserción recibe el registro completamente consolidado y se concentra en verificar capacidad, validar posición, asegurar unicidad y efectuar el corrimiento hacia la derecha (Right-Shift).
+                  </div>
+            </div>
+
+            <!-- Item 3: Modificación de Atributos con Clave Inmutable -->
+            <div class="mission-card">
+              <div class="mission-card-header">
+                <div class="mission-card-title">
+                  <i class="fas fa-edit"></i> 3. Modificación con Clave Inmutable (Update) — C++
+                </div>
+                <div class="rubric-pill">
+                  <span>10%</span>
+                  <div class="rubric-tooltip">
+                    <strong>Modificación con PK Inmutable</strong><br>
+                    Reutilización modular recomendada de búsqueda para ubicar el índice, mutación in-place (modificación directa sobre la celda en memoria) y clave primaria estrictamente inmutable (el código identificador no debe modificarse).
+                  </div>
+                </div>
+              </div>
+              <p class="mission-card-desc">
+                Implemente una función modular para realizar la <strong>modificación</strong> de los datos de un libro existente. Para alcanzar la máxima valoración de modularidad, deberá reutilizar la función de búsqueda previamente implementada. Una búsqueda lineal integrada dentro de la función se considerará funcional, pero recibirá una valoración menor en el criterio de modularidad. Si el registro no existe, debe rechazar la operación retornando <code>false</code>. Si existe, deberá actualizar directamente en la celda del arreglo el año de publicación y el precio base, recalcular la antigüedad, categoría e importe de alquiler, y conservar sin cambios el código del libro, e informar éxito retornando <code>true</code>.
+              </p>
+                  <div style="margin-top: 10px; padding: 8px 12px; background: #f0f9ff; border-left: 3px solid #0284c7; border-radius: 4px; font-size: 0.9em; color: #0369a1;">
+                    <strong><i class="fas fa-info-circle"></i> Flujo de Interacción y Diseño:</strong> En el <code>case 4:</code> del menú, para evitar solicitar datos nuevos si el registro no existe, se permite consultar previamente con la función de búsqueda o solicitar los nuevos datos y delegar la validación y actualización a la función algorítmica. La función debe recibir los nuevos datos por parámetro (o en una variable struct consolidada), garantizar la inmutabilidad de la clave primaria, actualizar la celda in-place y retornar un valor booleano (<code>true</code> / <code>false</code>) indicando el éxito o fracaso de la operación.
+                  </div>
+            </div>
+
+            <!-- Item 4: Baja Física con Compactación del Arreglo mediante Corrimiento a la Izquierda -->
+            <div class="mission-card">
+              <div class="mission-card-header">
+                <div class="mission-card-title">
+                  <i class="fas fa-trash-alt"></i> 4. Baja Física con Compactación del Arreglo mediante Corrimiento a la Izquierda (Delete) — C++
+                </div>
+                <div class="rubric-pill">
+                  <span>15%</span>
+                  <div class="rubric-tooltip">
+                    <strong>Baja Física con Compactación del Arreglo</strong><br>
+                    Reutilización modular recomendada de búsqueda, corrimiento contiguo a la izquierda Left-Shift (desplazamiento de celdas posteriores para cubrir el hueco vacío) y decremento del tamaño lógico tam--.
+                  </div>
+                </div>
+              </div>
+              <p class="mission-card-desc">
+                Implemente una función modular para realizar la <strong>baja física definitiva</strong> de un libro a partir de su clave primaria. Para alcanzar la máxima valoración de modularidad, deberá reutilizar la función de búsqueda previamente implementada. Una búsqueda lineal integrada dentro de la función se considerará funcional, pero recibirá una valoración menor en el criterio de modularidad. Si no existe, debe rechazar la operación retornando <code>false</code>. Si existe, debe realizar la baja física con compactación del arreglo mediante corrimiento a la izquierda (Left-Shift), desplazando todos los elementos posteriores una posición hacia adelante para eliminar el hueco sin dejar celdas vacías intermedias, decrementar el tamaño activo del arreglo e informar éxito retornando <code>true</code>.
+              </p>
+            </div>
+
+            <!-- Item 5: Ordenamiento Burbuja en C++ -->
+            <div class="mission-card">
+              <div class="mission-card-header">
+                <div class="mission-card-title">
+                  <i class="fas fa-sort-amount-down-alt"></i> 5. Ordenamiento Burbuja con Intercambio Completo de Estructuras — C++
+                </div>
+                <div class="rubric-pill">
+                  <span>15%</span>
+                  <div class="rubric-tooltip">
+                    <strong>Intercambio Completo de Estructuras</strong><br>
+                    Burbuja Mejorada con bandera de corte comparando campo clave e intercambiando la estructura completa mediante una función auxiliar.
+                  </div>
+                </div>
+              </div>
+              <p class="mission-card-desc">
+                Implemente una función modular para ordenar el catálogo en memoria RAM de forma <strong>ASCENDENTE (menor a mayor)</strong> según el campo <code>precioBase</code> aplicando el método de <strong>Burbuja Mejorada</strong> con bandera booleana (<code>huboIntercambio</code>) para corte temprano si el arreglo ya quedó ordenado. Cada permutación debe realizarse sobre la estructura completa utilizando una función modular auxiliar para el <strong>intercambio completo de dos estructuras</strong>, pasando ambas por referencia.
+              </p>
+            </div>
+
+            <!-- Item 6: Calculo Estadistico con Guarda Defensiva -->
+            <div class="mission-card">
+              <div class="mission-card-header">
+                <div class="mission-card-title">
+                  <i class="fas fa-chart-line"></i> 6. Cálculo Estadístico con Guarda Defensiva – C++
+                </div>
+                <div class="rubric-pill">
+                  <span>10%</span>
+                  <div class="rubric-tooltip">
+                    <strong>Cálculo Estadístico</strong><br>
+                    Recorrido acumulador sobre registros válidos, const-correctness (solo lectura) y guarda defensiva tam &le; 0 retornando 0.0.
+                  </div>
+                </div>
+              </div>
+              <p class="mission-card-desc">
+                Implemente una función modular para calcular el <strong>promedio del importe de alquiler</strong> de los libros registrados en el catálogo. La función debe recorrer secuencialmente el arreglo acumulando los importes, contar con una guarda defensiva que verifique si el arreglo está vacío (si <code>tam &le; 0</code> debe retornar <code>0.0</code> para prevenir divisiones por cero), retornar el valor promedio calculado con precisión de punto flotante y declarar el arreglo recibido como parámetro de solo lectura (por ejemplo mediante <code>const Libro arr[]</code>) para garantizar la inmutabilidad de los datos.
+              </p>
+            </div>
+
+
+
+            <!-- Item 7: Parte Escrita en Lápiz y Papel -->
+            <div class="mission-card" style="border-left-color: var(--ucse-rosa);">
+              <div class="mission-card-header">
+                <div class="mission-card-title" style="color: var(--ucse-rosa);">
+                  <i class="fas fa-pen-fancy"></i> 7. Instancia Escrita: Traza de Ordenamiento — Lápiz y Papel
+                </div>
+                <div class="rubric-pill" style="background: var(--ucse-rosa);">
+                  <span>25%</span>
+                  <div class="rubric-tooltip">
+                    <strong>Traza Manual en Hoja Impresa</strong><br>
+                    Resolución paso a paso en hoja de examen indicando comparaciones, swaps/desplazamientos y prefijo consolidado.
+                  </div>
+                </div>
+              </div>
+              <p class="mission-card-desc">
+                En la hoja impresa A4 provista por la cátedra, aplique el método de <strong>Selección Directa (Selection Sort)</strong> para ordenar de forma <strong>ASCENDENTE (menor a mayor)</strong> el vector de 5 elementos enteros <i>V</i> = [35, 12, 68, 24, 7]. Detalle en cada una de las 4 pasadas: el subarreglo analizado, la posición y valor del mínimo absoluto detectado, el swap efectuado y el estado resultante del vector indicando el prefijo consolidado.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Casos de Prueba Formales -->
+        <div class="exercise-section">
+          <h2 class="exercise-title">
+            <span><i class="fas fa-vial"></i> CASOS DE PRUEBA (EJECUCIONES ESPERADAS)</span>
+            <span class="exercise-weight">4 Casos de Verificación</span>
+          </h2>
+
+          <p style="margin-bottom: 8px;">
+            Verifique que el comportamiento, los datos calculados y el orden de los registros coincidan con los siguientes casos de prueba. Se admitirán diferencias menores de formato.
+          </p>
+          <div style="margin-bottom: 14px; padding: 10px 14px; background: #eff6ff; border-left: 4px solid #3b82f6; border-radius: 4px; font-size: 0.93em; color: #1e40af;">
+            <strong><i class="fas fa-info-circle"></i> Nota sobre Pruebas:</strong> Cada caso de prueba debe ejecutarse de manera independiente, reiniciando el programa con los cuatro registros iniciales. Los números iniciales y finales de cada entrada corresponden a opciones del menú. Los casos mostrados son ejemplos de verificación y no constituyen el conjunto completo de pruebas utilizado para evaluar la solución.
+          </div>
+
+          <div class="test-tabs" id="tabs-container">
+            <button type="button" onclick="switchTab(0)" class="tab-btn active">
+              <i class="fas fa-terminal"></i> Caso 1: Inserción y Unicidad de Clave
+            </button>
+            <button type="button" onclick="switchTab(1)" class="tab-btn">
+              <i class="fas fa-terminal"></i> Caso 2: Búsqueda y Modificación (PK Inmutable)
+            </button>
+            <button type="button" onclick="switchTab(2)" class="tab-btn">
+              <i class="fas fa-terminal"></i> Caso 3: Baja Física con Compactación del Arreglo mediante Corrimiento a la Izquierda
+            </button>
+            <button type="button" onclick="switchTab(3)" class="tab-btn">
+              <i class="fas fa-terminal"></i> Caso 4: Ordenamiento y Reporte Tabular
+            </button>
+          </div>
+
+          <div id="tab-contents">
+            <!-- Caso 1 -->
+            <div class="tab-content active">
+              <div class="test-case-grid">
+                <div class="terminal-box">
+                  <div class="terminal-header">
+                    <div class="terminal-title" style="color: #60a5fa;"><i class="fas fa-keyboard"></i> Entrada (Simulada)</div>
+                    <div class="terminal-dots">
+                      <span class="terminal-dot dot-red"></span>
+                      <span class="terminal-dot dot-yellow"></span>
+                      <span class="terminal-dot dot-green"></span>
+                    </div>
+                  </div>
+                  <div class="terminal-body">
+                    <pre class="console console-input">3
+2
+1050
+2024
+5800.0
+3
+0
+1001
+2020
+5000.0
+1
+0</pre>
+                  </div>
+                </div>
+                <div class="terminal-box">
+                  <div class="terminal-header">
+                    <div class="terminal-title" style="color: #4ade80;"><i class="fas fa-desktop"></i> Salida Esperada por Pantalla</div>
+                    <div class="terminal-dots">
+                      <span class="terminal-dot dot-red"></span>
+                      <span class="terminal-dot dot-yellow"></span>
+                      <span class="terminal-dot dot-green"></span>
+                    </div>
+                  </div>
+                  <div class="terminal-body">
+                    <pre class="console console-output">&gt;&gt;&gt; ALTA / INSERCION DE LIBRO EN POSICION &lt;&lt;&lt;
+  Ingrese posicion donde desea insertar [0 .. 4]: 2
+  Ingrese Codigo del libro (entero unico): 1050
+  Ingrese Anio de publicacion [1500..2026]: 2024
+  Ingrese Precio Base de Alquiler (&gt; 0): $5800.0
+
+  [OK] Libro registrado exitosamente en la celda [2]. Total: 5/15
+
+&gt;&gt;&gt; ALTA / INSERCION DE LIBRO EN POSICION &lt;&lt;&lt;
+  Ingrese posicion donde desea insertar [0 .. 5]: 0
+  Ingrese Codigo del libro (entero unico): 1001
+  Ingrese Anio de publicacion [1500..2026]: 2020
+  Ingrese Precio Base de Alquiler (&gt; 0): $5000.0
+
+  [!] ERROR: No se pudo registrar. Verifique codigo duplicado, cupo agotado o posicion invalida.
+
++-----+--------+----------+------+-----+-------------+----------------+
+| POS | CODIGO | ANIO PUB | ANT. | CAT | PRECIO BASE | IMP. ALQUILER  |
++-----+--------+----------+------+-----+-------------+----------------+
+| [0] |   1001 |     2022 |    4 |  N  | $   4500.00 | $      5400.00 |
+| [1] |   1040 |     2016 |   10 |  R  | $   3800.00 | $      4370.00 |
+| [2] |   1050 |     2024 |    2 |  N  | $   5800.00 | $      6960.00 |
+| [3] |   1205 |     2003 |   23 |  A  | $   5200.00 | $      5720.00 |
+| [4] |   1310 |     2025 |    1 |  N  | $   6100.00 | $      7320.00 |
++-----+--------+----------+------+-----+-------------+----------------+
+Total libros en catalogo: 5.
+
+  [SISTEMA]: Sesion finalizada. Fin del programa.</pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Caso 2 -->
+            <div class="tab-content">
+              <div class="test-case-grid">
+                <div class="terminal-box">
+                  <div class="terminal-header">
+                    <div class="terminal-title" style="color: #60a5fa;"><i class="fas fa-keyboard"></i> Entrada (Simulada)</div>
+                    <div class="terminal-dots">
+                      <span class="terminal-dot dot-red"></span>
+                      <span class="terminal-dot dot-yellow"></span>
+                      <span class="terminal-dot dot-green"></span>
+                    </div>
+                  </div>
+                  <div class="terminal-body">
+                    <pre class="console console-input">4
+1040
+2019
+4200.0
+2
+1040
+0</pre>
+                  </div>
+                </div>
+                <div class="terminal-box">
+                  <div class="terminal-header">
+                    <div class="terminal-title" style="color: #4ade80;"><i class="fas fa-desktop"></i> Salida Esperada por Pantalla</div>
+                    <div class="terminal-dots">
+                      <span class="terminal-dot dot-red"></span>
+                      <span class="terminal-dot dot-yellow"></span>
+                      <span class="terminal-dot dot-green"></span>
+                    </div>
+                  </div>
+                  <div class="terminal-body">
+                    <pre class="console console-output">&gt;&gt;&gt; MODIFICACION DE LIBRO (UPDATE / PK INMUTABLE) &lt;&lt;&lt;
+  Ingrese Codigo del libro a modificar: 1040
+  Modificando libro con Codigo: 1040 (inalterable)
+  Nuevo Anio de publicacion [1500..2026]: 2019
+  Nuevo Precio Base de Alquiler (&gt; 0): $4200.0
+
+  [OK] Libro modificado exitosamente.
+
+&gt;&gt;&gt; CONSULTA DE LIBRO POR CODIGO &lt;&lt;&lt;
+  Ingrese codigo a buscar: 1040
+  [OK] Libro localizado en celda [1]:
+  +------------------------------------------------------------------+
+  | FICHA TECNICA DE LIBRO REGISTRADO                                |
+  +------------------------------------------------------------------+
+  | Codigo Libro:     1040                                           |
+  | Anio Publicacion: 2019                                           |
+  | Antiguedad:       7 anios                                        |
+  | Categoria:        R (Regular 6..20)                              |
+  | Precio Base:     $4200.00                                        |
+  | Importe Alquiler:$4830.00                                        |
+  +------------------------------------------------------------------+
+
+  [SISTEMA]: Sesion finalizada. Fin del programa.</pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Caso 3 -->
+            <div class="tab-content">
+              <div class="test-case-grid">
+                <div class="terminal-box">
+                  <div class="terminal-header">
+                    <div class="terminal-title" style="color: #60a5fa;"><i class="fas fa-keyboard"></i> Entrada (Simulada)</div>
+                    <div class="terminal-dots">
+                      <span class="terminal-dot dot-red"></span>
+                      <span class="terminal-dot dot-yellow"></span>
+                      <span class="terminal-dot dot-green"></span>
+                    </div>
+                  </div>
+                  <div class="terminal-body">
+                    <pre class="console console-input">5
+1205
+1
+0</pre>
+                  </div>
+                </div>
+                <div class="terminal-box">
+                  <div class="terminal-header">
+                    <div class="terminal-title" style="color: #4ade80;"><i class="fas fa-desktop"></i> Salida Esperada por Pantalla</div>
+                    <div class="terminal-dots">
+                      <span class="terminal-dot dot-red"></span>
+                      <span class="terminal-dot dot-yellow"></span>
+                      <span class="terminal-dot dot-green"></span>
+                    </div>
+                  </div>
+                  <div class="terminal-body">
+                    <pre class="console console-output">&gt;&gt;&gt; BAJA FISICA DE LIBRO (DELETE / COMPACTACION) &lt;&lt;&lt;
+  Ingrese Codigo del libro a dar de baja: 1205
+
+  [OK] Registro eliminado y arreglo compactado correctamente. Total activos: 3
+
++-----+--------+----------+------+-----+-------------+----------------+
+| POS | CODIGO | ANIO PUB | ANT. | CAT | PRECIO BASE | IMP. ALQUILER  |
++-----+--------+----------+------+-----+-------------+----------------+
+| [0] |   1001 |     2022 |    4 |  N  | $   4500.00 | $      5400.00 |
+| [1] |   1040 |     2016 |   10 |  R  | $   3800.00 | $      4370.00 |
+| [2] |   1310 |     2025 |    1 |  N  | $   6100.00 | $      7320.00 |
++-----+--------+----------+------+-----+-------------+----------------+
+Total libros en catalogo: 3.
+
+  [SISTEMA]: Sesion finalizada. Fin del programa.</pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Caso 4 -->
+            <div class="tab-content">
+              <div class="test-case-grid">
+                <div class="terminal-box">
+                  <div class="terminal-header">
+                    <div class="terminal-title" style="color: #60a5fa;"><i class="fas fa-keyboard"></i> Entrada (Simulada)</div>
+                    <div class="terminal-dots">
+                      <span class="terminal-dot dot-red"></span>
+                      <span class="terminal-dot dot-yellow"></span>
+                      <span class="terminal-dot dot-green"></span>
+                    </div>
+                  </div>
+                  <div class="terminal-body">
+                    <pre class="console console-input">6
+1
+7
+0</pre>
+                  </div>
+                </div>
+                <div class="terminal-box">
+                  <div class="terminal-header">
+                    <div class="terminal-title" style="color: #4ade80;"><i class="fas fa-desktop"></i> Salida Esperada por Pantalla</div>
+                    <div class="terminal-dots">
+                      <span class="terminal-dot dot-red"></span>
+                      <span class="terminal-dot dot-yellow"></span>
+                      <span class="terminal-dot dot-green"></span>
+                    </div>
+                  </div>
+                  <div class="terminal-body">
+                    <pre class="console console-output">&gt;&gt;&gt; ORDENAMIENTO BURBUJA (ASCENDENTE POR PRECIO BASE) &lt;&lt;&lt;
+  [OK] Catalogo ordenado exitosamente por Precio Base en forma ASCENDENTE.
+
++-----+--------+----------+------+-----+-------------+----------------+
+| POS | CODIGO | ANIO PUB | ANT. | CAT | PRECIO BASE | IMP. ALQUILER  |
++-----+--------+----------+------+-----+-------------+----------------+
+| [0] |   1040 |     2016 |   10 |  R  | $   3800.00 | $      4370.00 |
+| [1] |   1001 |     2022 |    4 |  N  | $   4500.00 | $      5400.00 |
+| [2] |   1205 |     2003 |   23 |  A  | $   5200.00 | $      5720.00 |
+| [3] |   1310 |     2025 |    1 |  N  | $   6100.00 | $      7320.00 |
++-----+--------+----------+------+-----+-------------+----------------+
+Total libros en catalogo: 4.
+
+&gt;&gt;&gt; REPORTE ESTADISTICO: PROMEDIO DE IMPORTE DE ALQUILER &lt;&lt;&lt;
+  Calculando metrica sobre 4 registros activos...
+  Promedio general de alquiler: $5702.50
+
+  [SISTEMA]: Sesion finalizada. Fin del programa.</pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Guía de Comprobación Defensiva (Casos Límite y Negativos) -->
+        <div style="margin-top: 24px; background: #fff1f2; border: 1px solid #fecdd3; border-left: 5px solid #e11d48; border-radius: 8px; padding: 14px 18px;">
+          <h4 style="margin: 0 0 8px 0; color: #9f1239; font-size: 1.05em;"><i class="fas fa-shield-alt"></i> Guía de Comprobación Defensiva (Casos Límite y Negativos):</h4>
+          <p style="margin: 0 0 10px 0; font-size: 0.9em; color: #881337;">
+            Verifique la robustez de sus funciones implementadas ante las siguientes situaciones anómalas:
+          </p>
+          <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; font-size: 0.88em; text-align: left; background: #ffffff; border-radius: 4px; overflow: hidden;">
+              <thead>
+                <tr style="background: #ffe4e6; color: #881337; border-bottom: 2px solid #fda4af;">
+                  <th style="padding: 8px 12px; width: 25%;">Escenario Evaluado</th>
+                  <th style="padding: 8px 12px; width: 35%;">Entrada / Condición de Prueba</th>
+                  <th style="padding: 8px 12px;">Comportamiento y Retorno Esperado</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="border-bottom: 1px solid #fecdd3;">
+                  <td style="padding: 7px 12px; font-weight: 600; color: #9f1239;">Clave Duplicada</td>
+                  <td style="padding: 7px 12px;">Intentar dar de alta una clave ya existente</td>
+                  <td style="padding: 7px 12px;">Rechazar la operación retornando <code>false</code>; <code>tam</code> permanece inalterado.</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #fecdd3;">
+                  <td style="padding: 7px 12px; font-weight: 600; color: #9f1239;">Posición Inválida</td>
+                  <td style="padding: 7px 12px;">Intentar insertar en posición <code>pos &lt; 0</code> o <code>pos &gt; tam</code></td>
+                  <td style="padding: 7px 12px;">Rechazar retornando <code>false</code> sin modificar ninguna celda ni desplazar memoria.</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #fecdd3;">
+                  <td style="padding: 7px 12px; font-weight: 600; color: #9f1239;">Capacidad Agotada</td>
+                  <td style="padding: 7px 12px;">Intentar insertar cuando <code>tam == CAPACIDAD</code> (15)</td>
+                  <td style="padding: 7px 12px;">Rechazar por cupo lleno retornando <code>false</code> para prevenir desbordamiento.</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #fecdd3;">
+                  <td style="padding: 7px 12px; font-weight: 600; color: #9f1239;">Clave Inexistente</td>
+                  <td style="padding: 7px 12px;">Búsqueda, Modificación o Baja de un código inexistente (ej. 9999)</td>
+                  <td style="padding: 7px 12px;">Búsqueda retorna <code>-1</code>; Modificación y Baja retornan <code>false</code> informando no encontrado.</td>
+                </tr>
+                <tr>
+                  <td style="padding: 7px 12px; font-weight: 600; color: #9f1239;">Arreglo Vacío</td>
+                  <td style="padding: 7px 12px;">Calcular promedio estadístico con tamaño lógico <code>tam == 0</code></td>
+                  <td style="padding: 7px 12px;">Guarda defensiva actúa inmediatamente retornando <code>0.0</code> (evita división por cero).</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        </div>
+
+        <!-- Código Base C++ con Structs -->
+        <div class="exercise-section">
+          <h2 class="exercise-title">
+            <span><i class="fas fa-file-code"></i> CÓDIGO BASE C++ CON STRUCTS</span>
+            <span class="exercise-weight" style="background: var(--ucse-azul-oscuro);"><i class="fas fa-code-branch"></i> Plantilla Modular</span>
+          </h2>
+          <p style="margin-bottom: 16px;">
+            Inicie su desarrollo copiando la siguiente plantilla oficial con la estructura modular, prototipos y menú interactivo:
+          </p>
+          <div class="terminal-box">
+            <div class="terminal-header">
+              <div class="terminal-title" style="color: #ffd800;"><i class="fab fa-cuttlefish"></i> codigo_base_tema1.cpp</div>
+              <div class="terminal-dots">
+                <span class="terminal-dot dot-red"></span>
+                <span class="terminal-dot dot-yellow"></span>
+                <span class="terminal-dot dot-green"></span>
+              </div>
+            </div>
+            <div class="terminal-body">
+              <pre class="console" style="color: #e2e8f0;">#include &lt;iostream&gt;
+#include &lt;iomanip&gt;
+
+using namespace std;
+
+// =========================================================================
+// DEFINICION DEL REGISTRO (STRUCT)
+// TODO: El estudiante debe declarar la estructura segun la especificacion
+// detallada en el enunciado (utilizar exclusivamente tipos primitivos)
+// =========================================================================
+struct Libro {
+    // TODO: Declarar los campos requeridos respetando tipos, nombres y el MISMO ORDEN EXACTO de la tabla del enunciado para compatibilidad con la inicializacion
+};
+
+// =========================================================================
+// PROTOTIPOS DEL ESTUDIANTE: Declare aqui los prototipos solicitados
+// =========================================================================
+
+// Modulos meramente de escritura pre-implementados
+void mostrarMenu();
+void mostrarFicha(const Libro &amp;e);
+void mostrarTabla(const Libro arr[], int tam);
+
+int main() {
+    const int CAPACIDAD = 15;
+    Libro catalogo[CAPACIDAD] = {
+        {1001, 2022, 4,  'N', 4500.0, 5400.0},
+        {1040, 2016, 10, 'R', 3800.0, 4370.0},
+        {1205, 2003, 23, 'A', 5200.0, 5720.0},
+        {1310, 2025, 1,  'N', 6100.0, 7320.0}
+    };
+    int tam = 4;
+
+    int opcion = 0;
+    do {
+        mostrarMenu();
+        cout &lt;&lt; "  Seleccione una opcion [1-7, 0 para salir]: ";
+        if (!(cin &gt;&gt; opcion)) {
+            cin.clear();
+            cin.ignore(10000, '\n');
+            continue;
+        }
+
+        cout &lt;&lt; "\n----------------------------------------------------------------------\n";
+        switch (opcion) {
+            case 1:
+                // TODO: Implementar por el estudiante
+                break;
+            case 2:
+                // TODO: Implementar por el estudiante
+                break;
+            case 3:
+                // TODO: Implementar por el estudiante
+                break;
+            case 4:
+                // TODO: Implementar por el estudiante
+                break;
+            case 5:
+                // TODO: Implementar por el estudiante
+                break;
+            case 6:
+                // TODO: Implementar por el estudiante
+                break;
+            case 7:
+                // TODO: Implementar por el estudiante
+                break;
+            case 0:
+                cout &lt;&lt; "  [SISTEMA]: Sesion finalizada. Fin del programa.\n";
+                break;
+            default:
+                cout &lt;&lt; "  [ERROR] Opcion no valida.\n";
+                break;
+        }
+    } while (opcion != 0);
+
+    return 0;
+}
+
+// =========================================================================
+// ESPACIO PARA DESARROLLO DE FUNCIONES POR PARTE DEL ESTUDIANTE
+// (Implemente aqui las funciones completas solicitadas en la consigna)
+// =========================================================================
+
+// =========================================================================
+// MODULOS DE ESCRITURA PRE-IMPLEMENTADOS
+// =========================================================================
+
+void mostrarMenu() {
+    cout &lt;&lt; "\n======================================================================\n";
+    cout &lt;&lt; "        SISTEMA DE GESTION DE BIBLIOTECA (ARRAY OF STRUCTS)           \n";
+    cout &lt;&lt; "======================================================================\n";
+    cout &lt;&lt; "  1. Listar Catalogo de Libros (Formato Tabular)\n";
+    cout &lt;&lt; "  2. Consultar Libro por Codigo (Read)\n";
+    cout &lt;&lt; "  3. Registrar Nuevo Libro en Posicion (Create / Right-Shift)\n";
+    cout &lt;&lt; "  4. Modificar Libro Existente (Update / PK Inmutable)\n";
+    cout &lt;&lt; "  5. Dar de Baja Fisica de Libro (Delete / Left-Shift)\n";
+    cout &lt;&lt; "  6. Ordenar por Precio Base (Burbuja Ascendente)\n";
+    cout &lt;&lt; "  7. Calcular Promedio de Importe de Alquiler (Estadistica / Const)\n";
+    cout &lt;&lt; "  0. Salir\n";
+    cout &lt;&lt; "======================================================================\n";
+}
+
+void mostrarFicha(const Libro &amp;e) {
+    cout &lt;&lt; "  +------------------------------------------------------------------+\n";
+    cout &lt;&lt; "  | FICHA TECNICA DE LIBRO REGISTRADO                                |\n";
+    cout &lt;&lt; "  +------------------------------------------------------------------+\n";
+    cout &lt;&lt; "  | Codigo Libro:     " &lt;&lt; left &lt;&lt; setw(47) &lt;&lt; e.codigo &lt;&lt; "|\n";
+    cout &lt;&lt; "  | Anio Publicacion: " &lt;&lt; left &lt;&lt; setw(47) &lt;&lt; e.anioPub &lt;&lt; "|\n";
+    cout &lt;&lt; "  | Antiguedad:       " &lt;&lt; left &lt;&lt; setw(45) &lt;&lt; e.antiguedad &lt;&lt; " anios|\n";
+    cout &lt;&lt; "  | Categoria:        " &lt;&lt; left &lt;&lt; setw(47) &lt;&lt; (e.categoria == 'N' ? "N (Nuevo &lt;= 5)" : (e.categoria == 'R' ? "R (Regular 6..20)" : "A (Antiguo &gt; 20)")) &lt;&lt; "|\n";
+    cout &lt;&lt; "  | Precio Base:     $" &lt;&lt; left &lt;&lt; setw(46) &lt;&lt; fixed &lt;&lt; setprecision(2) &lt;&lt; e.precioBase &lt;&lt; "|\n";
+    cout &lt;&lt; "  | Importe Alquiler:$" &lt;&lt; left &lt;&lt; setw(46) &lt;&lt; fixed &lt;&lt; setprecision(2) &lt;&lt; e.importeAlquiler &lt;&lt; "|\n";
+    cout &lt;&lt; "  +------------------------------------------------------------------+\n" &lt;&lt; right;
+}
+
+void mostrarTabla(const Libro arr[], int tam) {
+    if (tam == 0) {
+        cout &lt;&lt; "  [!] El catalogo esta vacio (tam = 0).\n";
+        return;
+    }
+
+    cout &lt;&lt; "\n+-----+--------+----------+------+-----+-------------+----------------+\n";
+    cout &lt;&lt; "| POS | CODIGO | ANIO PUB | ANT. | CAT | PRECIO BASE | IMP. ALQUILER  |\n";
+    cout &lt;&lt; "+-----+--------+----------+------+-----+-------------+----------------+\n";
+
+    cout &lt;&lt; right;
+    for (int i = 0; i &lt; tam; ++i) {
+        cout &lt;&lt; "| [" &lt;&lt; setw(1) &lt;&lt; i &lt;&lt; "] | "
+             &lt;&lt; setw(6) &lt;&lt; arr[i].codigo &lt;&lt; " |   "
+             &lt;&lt; setw(6) &lt;&lt; arr[i].anioPub &lt;&lt; " |  "
+             &lt;&lt; setw(3) &lt;&lt; arr[i].antiguedad &lt;&lt; " |  "
+             &lt;&lt; arr[i].categoria &lt;&lt; "  | $"
+             &lt;&lt; setw(10) &lt;&lt; fixed &lt;&lt; setprecision(2) &lt;&lt; arr[i].precioBase &lt;&lt; " | $"
+             &lt;&lt; setw(13) &lt;&lt; fixed &lt;&lt; setprecision(2) &lt;&lt; arr[i].importeAlquiler &lt;&lt; " |\n";
+    }
+    cout &lt;&lt; "+-----+--------+----------+------+-----+-------------+----------------+\n";
+    cout &lt;&lt; "Total libros en catalogo: " &lt;&lt; tam &lt;&lt; ".\n";
+}
+</pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rúbrica Oficial de Evaluación Bimodal -->
+        <div class="grading-section">
+          <h2><i class="fas fa-award"></i> RÚBRICA DE EVALUACIÓN DEL SIMULACRO (75% C++ + 25% ESCRITA)</h2>
+          <p>
+            La evaluación es bimodal. Se ponderarán las 6 funciones algorítmicas principales y una función auxiliar de intercambio de estructuras en C++ sobre la computadora y la traza manual en lápiz y papel:
+          </p>
+          <div class="wp-block-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Bloque Evaluado</th>
+                  <th>Criterio Técnico y Pedagógico</th>
+                  <th>Ponderación</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>1. Búsqueda por Clave Primaria (Read)</strong></td>
+                  <td>Retorno de índice o centinela -1, const-correctness (solo lectura). Salida temprana inmediata al hallar la clave, sin recorrer celdas innecesarias.</td>
+                  <td><strong>10%</strong> (C++)</td>
+                </tr>
+                <tr>
+                  <td><strong>2. Alta / Inserción con Unicidad de Clave (Create)</strong></td>
+                  <td>Validación de cupo (tam &lt; capacidad) y posición (0..tam). Reutilización modular recomendada de búsqueda (buena práctica de modularidad para evitar duplicados), corrimiento Right-Shift y tam++.</td>
+                  <td><strong>15%</strong> (C++)</td>
+                </tr>
+                <tr>
+                  <td><strong>3. Modificación con Clave Inmutable (Update)</strong></td>
+                  <td>Reutilización modular recomendada de búsqueda, mutación in-place (directa en memoria sin clonar), preservación estricta de clave primaria inmutable y recálculo de derivados.</td>
+                  <td><strong>10%</strong> (C++)</td>
+                </tr>
+                <tr>
+                  <td><strong>4. Baja Física con Compactación del Arreglo (Delete)</strong></td>
+                  <td>Reutilización modular recomendada de búsqueda, compactación del arreglo mediante corrimiento a la izquierda (Left-Shift) y tam--.</td>
+                  <td><strong>15%</strong> (C++)</td>
+                </tr>
+                <tr>
+                  <td><strong>5. Ordenamiento Burbuja con Intercambio de Estructuras (Sort)</strong></td>
+                  <td>Burbuja Mejorada con bandera de corte <code>huboIntercambio</code> (terminación anticipada si ya está ordenado), comparación estricta e intercambio completo de estructuras mediante una función auxiliar.</td>
+                  <td><strong>15%</strong> (C++)</td>
+                </tr>
+                <tr>
+                  <td><strong>6. Cálculo Estadístico con Guarda Defensiva (Stats)</strong></td>
+                  <td>Recorrido secuencial acumulador, const-correctness (solo lectura) y guarda defensiva (<code>tam &le; 0</code> retorna 0.0) para prevenir división por cero.</td>
+                  <td><strong>10%</strong> (C++)</td>
+                </tr>
+                <tr>
+                  <td><strong>7. Instancia Escrita: Traza de Ordenamiento</strong></td>
+                  <td>Resolución manuscrita en hoja A4 de examen: pasadas exactas, identificación del mínimo y su posición, intercambio efectuado y prefijo ordenado consolidado.</td>
+                  <td><strong>25%</strong> (Papel)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Condiciones Formales de Desarrollo -->
+        <div class="conditions-section">
+          <h2><i class="fas fa-calendar-check"></i> CONDICIONES FORMALES DE DESARROLLO Y EVALUACIÓN</h2>
+          <ul>
+            <li><strong>Modalidad Bimodal:</strong> 75% Laboratorio de Programación (C++) + 25% Instancia Escrita (Lápiz y Papel).</li>
+            <li><strong>Entorno de Desarrollo:</strong> El código deberá compilar bajo el estándar C++17 (en Code::Blocks, VS Code, CLion, MinGW / GCC).</li>
+            <li><strong>Estructura de Datos:</strong> Se debe utilizar exclusivamente arreglo de estructuras (<code>struct</code> + array AoS). Prohibido vectores paralelos.</li>
+            <li><strong>Capa de presentación preimplementada:</strong> El menú y las funciones de presentación tabular están provistos. El estudiante deberá completar en el switch la lectura y validación de datos, las llamadas a las funciones algorítmicas y los mensajes correspondientes. Las validaciones de dominio de los datos ingresados se realizarán en el switch. Las funciones algorítmicas deberán efectuar las validaciones estructurales que les correspondan, como capacidad, posición, existencia o unicidad de la clave.</li>
+            <li><strong>Criterio de Aprobación:</strong> El programa debe compilar sin errores bajo C++17. Las advertencias que evidencien problemas funcionales, conversiones inseguras o variables sin inicializar podrán considerarse dentro del bloque afectado; la hoja escrita debe entregarse al finalizar.</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Pie de Página Institucional UCSE -->
+    <footer class="footer-info">
+      <div class="main-container">
+        <p><strong>Universidad Católica de Santiago del Estero</strong></p>
+        <p>Departamento Académico San Salvador • Facultad de Ciencias de la Salud y Tecnologías de la Información</p>
+        <p>Algoritmos y Programación — Examen Módulo 4: Arreglos de Estructuras (Ciclo Lectivo 2026)</p>
+      </div>
+    </footer>
+
+    <script>
+      function switchTab(tabIndex) {
+        document.querySelectorAll('.tab-btn').forEach((btn, idx) => {
+          if (idx === tabIndex) {
+            btn.classList.add('active');
+          } else {
+            btn.classList.remove('active');
+          }
+        });
+        document.querySelectorAll('.tab-content').forEach((content, idx) => {
+          if (idx === tabIndex) {
+            content.classList.add('active');
+          } else {
+            content.classList.remove('active');
+          }
+        });
+      }
+
+      // Activar nav-item correspondiente al tema actual automáticamente
+      document.addEventListener("DOMContentLoaded", function() {
+        const numTema = "1".trim();
+        const activeNav = document.getElementById("nav-tema-" + numTema);
+        if (activeNav) {
+          activeNav.classList.add("active");
+        }
+      });
+    </script>
+</body>
+</html>
